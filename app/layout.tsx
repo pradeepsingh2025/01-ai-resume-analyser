@@ -29,18 +29,33 @@ export default function RootLayout({
         className={`${courierPrime.className} antialiased`}
       >
         <ClerkProvider>
-          <header className="flex justify-end items-center p-4 gap-4 h-16">
-            <Show when="signed-out">
-              <SignInButton />
-              <SignUpButton>
-                <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </Show>
-            <Show when="signed-in">
-              <UserButton />
-            </Show>
+          <header className="flex items-center justify-between px-8 py-4 h-14 bg-[#07090d] border-b border-white/[0.06] fixed top-0 right-0 left-0 z-30">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <span className="text-[#b48c50] text-lg leading-none">◈</span>
+              <span className="font-mono text-xs tracking-[0.18em] uppercase text-[#e4ddd3]/70">
+                Resumter
+              </span>
+            </div>
+
+            {/* Auth */}
+            <div className="flex items-center gap-3">
+              <Show when="signed-out">
+                <SignInButton>
+                  <button className="font-mono text-[11px] tracking-widest uppercase text-[#e4ddd3]/50 hover:text-[#e4ddd3]/90 transition-colors px-3 py-1.5 cursor-pointer">
+                    Log in
+                  </button>
+                </SignInButton>
+                <SignUpButton>
+                  <button className="font-mono text-[11px] tracking-widest uppercase bg-[#b48c50] text-[#07090d] px-4 py-1.5 hover:bg-[#c9a264] transition-colors cursor-pointer">
+                    Sign up
+                  </button>
+                </SignUpButton>
+              </Show>
+              <Show when="signed-in">
+                <UserButton />
+              </Show>
+            </div>
           </header>
           {children}
         </ClerkProvider>
