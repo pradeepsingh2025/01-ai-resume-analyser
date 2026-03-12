@@ -29,7 +29,7 @@ export default function RootLayout({
         className={`${courierPrime.className} antialiased`}
       >
         <ClerkProvider>
-          <header className="flex items-center justify-between px-8 py-4 h-14 bg-[#07090d] border-b border-white/[0.06] fixed top-0 right-0 left-0 z-30">
+          <header className="flex items-center justify-between px-8 py-4 h-14 bg-[#07090d] border-b border-white/10 fixed top-0 right-0 left-0 z-30">
             {/* Logo */}
             <div className="flex items-center gap-2">
               <span className="text-[#b48c50] text-lg leading-none">◈</span>

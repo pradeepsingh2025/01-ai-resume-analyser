@@ -1,8 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
 
-import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
-
 const features = [
     {
         id: "01",

@@ -1,5 +1,151 @@
-export default function Analyse(){
+"use client"
+
+import { useState } from "react"
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
+import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
+import { Upload, Briefcase, Sparkles, FileText, X } from "lucide-react"
+
+export default function Analyse() {
+    const [jobDescription, setJobDescription] = useState<string>("")
+    const [file, setFile] = useState<File | null>(null)
+    const [error, setError] = useState<string | null>(null)
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setError(null)
+        if (e.target.files && e.target.files.length > 0) {
+            const selectedFile = e.target.files[0]
+            if (selectedFile.size > 10 * 1024 * 1024) { // 10MB limit
+                setError("File size must be less than 10MB")
+                e.target.value = '' // Reset input
+                return
+            }
+            setFile(selectedFile)
+        }
+    }
+    const handleJobDesChange = (e : React.ChangeEvent<HTMLTextAreaElement>)=>{
+        setJobDescription(e.currentTarget.value)
+    }
+
+    const clearFile = (e: React.MouseEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setFile(null)
+        setError(null)
+        // Reset the file input value
+        const input = document.getElementById('resume') as HTMLInputElement
+        if (input) input.value = ''
+    }
+
     return (
-        <div className="pt-30">hii</div>
+        <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-24 pb-12 px-6 flex flex-col items-center">
+            
+            <div className="w-full max-w-3xl flex flex-col gap-8">
+                
+                {/* Header Section */}
+                <div className="space-y-2 mb-4">
+                    <h1 className="text-3xl font-mono text-[#b48c50] tracking-wider uppercase">
+                        Analyze Resume
+                    </h1>
+                    <p className="text-[#e4ddd3]/60 font-sans max-w-xl leading-relaxed">
+                        Upload your resume and provide specific instructions or a job description for our AI to evaluate your profile against.
+                    </p>
+                </div>
+
+                {/* Main Form Area */}
+                <div className="grid grid-cols-1 gap-8 bg-white/2 shadow-slate-800 border border-white/30 rounded-xl p-6 sm:p-8 shadow-lg">
+                    
+                    {/* Prompt Input */}
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                            <Briefcase className="w-4 h-4 text-[#b48c50]" />
+                            <label className="font-mono text-sm tracking-widest uppercase text-[#e4ddd3]/80">
+                                Job Details & Instructions
+                            </label>
+                        </div>
+                        <Textarea
+                            onChange={handleJobDesChange}
+                            value={jobDescription}
+                            placeholder="Paste a job description or type specific things you want the AI to look for (e.g., 'Does this resume highlight leadership skills?')..." 
+                            className="min-h-40 bg-[#07090d]/50 border-white/10 text-[#e4ddd3] placeholder:text-[#e4ddd3]/30 focus-visible:ring-[#b48c50] focus-visible:border-[#b48c50]/50 rounded-xl resize-none font-sans" 
+                        />
+                    </div>
+
+                    {/* Resume Upload */}
+                    <div className="space-y-3">
+                        <Field>
+                            <FieldLabel htmlFor="resume" className="sr-only">Resume</FieldLabel>
+                            
+                            <div className="relative group cursor-pointer">
+                                <Input 
+                                    id="resume" 
+                                    type="file" 
+                                    accept=".pdf,.doc,.docx"
+                                    onChange={handleFileChange}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                />
+                                
+                                <div className={`border-2 border-dashed transition-colors rounded-xl p-8 flex flex-col items-center justify-center gap-4 text-center ${file ? 'border-[#b48c50]/50 bg-[#b48c50]/[0.02]' : 'border-white/[0.1] group-hover:border-[#b48c50]/50 group-hover:bg-[#b48c50]/[0.02]'}`}>
+                                    {file ? (
+                                        <>
+                                            <div className="p-3 bg-white/3 rounded-full text-[#b48c50]">
+                                                <FileText className="w-6 h-6" />
+                                            </div>
+                                            <div >
+                                                <p className="font-mono text-sm tracking-wider uppercase text-[#e4ddd3]/90 mb-1">
+                                                    {file.name}
+                                                </p>
+                                                <FieldDescription className="text-[#e4ddd3]/50 font-sans text-sm text-center">
+                                                    {(file.size / 1024 / 1024).toFixed(2)} MB
+                                                </FieldDescription>
+                                            </div>
+                                            <button 
+                                                onClick={clearFile}
+                                                className="absolute top-4 right-4 p-2 text-[#e4ddd3]/50 hover:text-[#e4ddd3] hover:bg-white/[0.05] rounded-lg transition-colors z-20"
+                                                title="Remove file"
+                                            >
+                                                <X className="w-4 h-4" />
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="p-3 bg-white/[0.03] rounded-full group-hover:bg-[#b48c50]/10 transition-colors">
+                                                <Upload className="w-6 h-6 text-[#e4ddd3]/50 group-hover:text-[#b48c50] transition-colors" />
+                                            </div>
+                                            <div>
+                                                <p className="font-mono text-sm tracking-wider uppercase text-[#e4ddd3]/90 mb-1">
+                                                    Upload Resume
+                                                </p>
+                                                <FieldDescription className="text-[#e4ddd3]/50 font-sans text-sm">
+                                                    Drag and drop or click to browse (PDF, DOCX) - Max 10MB
+                                                </FieldDescription>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                                {error && (
+                                    <div className="absolute -bottom-8 left-0 right-0 text-center">
+                                        <p className="text-red-500 text-sm font-sans">{error}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </Field>
+                    </div>
+
+                </div>
+
+                {/* Actions */}
+                <div className="flex justify-end pt-2">
+                    <button 
+                        className="font-mono text-sm tracking-widest uppercase bg-[#b48c50] text-[#07090d] px-8 py-3.5 rounded-lg hover:bg-[#c9a264] transition-all transform hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(180,140,80,0.39)] hover:shadow-[0_6px_20px_rgba(180,140,80,0.23)] flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                        disabled={!file || jobDescription.length === 0}
+                    >
+                        <Sparkles className="w-4 h-4" />
+                        Analyze Now
+                    </button>
+                </div>
+
+            </div>
+        </div>
     )
 }
