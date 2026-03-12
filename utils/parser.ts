@@ -1,6 +1,11 @@
 import mammoth from 'mammoth';
 
 export async function parseResume(file: File): Promise<string> {
+
+    if (file.type === "text/plain" || file.name.endsWith(".txt")) {
+        return file.text();
+    }
+
     if (file.type === "application/pdf") {
         const pdfjs = await import("pdfjs-dist");
 
@@ -26,6 +31,5 @@ export async function parseResume(file: File): Promise<string> {
         return value;
     }
 
-    // .txt fallback
-    return file.text();
+    throw new Error("Unsupported file type. Please upload a PDF or DOCX file.");
 }

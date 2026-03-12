@@ -53,6 +53,7 @@ export default function Analyse() {
             console.log(await res.json());
         } catch (error) {
             console.log(error);
+            setError("Something went wrong. Please try again.");
         } finally {
             setLoading(false);
             setJobDescription("");
@@ -79,7 +80,7 @@ export default function Analyse() {
                 </div>
 
                 {/* Main Form Area */}
-                <div className="grid grid-cols-1 gap-8 bg-white/2 shadow-slate-800 border border-white/30 rounded-xl p-6 sm:p-8 shadow-lg">
+                <div className="grid grid-cols-1 gap-8 bg-white/2 shadow-slate-800 border border-white/20 rounded-xl p-6 sm:p-8 shadow-lg">
 
                     {/* Prompt Input */}
                     <div className="space-y-4">
@@ -92,7 +93,7 @@ export default function Analyse() {
                         <Textarea
                             onChange={handleJobDesChange}
                             value={jobDescription}
-                            placeholder="Paste a job description or type specific things you want the AI to look for (e.g., 'Does this resume highlight leadership skills?')..."
+                            placeholder="Paste a job description or type specific things you want the AI to look for in the resume (e.g., 'Does this resume highlight leadership skills?')"
                             className="min-h-40 max-h-96 overflow-y-auto no-scrollbar bg-[#07090d]/50 border-white/10 text-[#e4ddd3] placeholder:text-[#e4ddd3]/30 focus-visible:ring-[#b48c50] focus-visible:border-[#b48c50]/50 rounded-xl resize-none font-sans"
                         />
                     </div>
@@ -143,7 +144,7 @@ export default function Analyse() {
                                                     Upload Resume
                                                 </p>
                                                 <FieldDescription className="text-[#e4ddd3]/50 font-sans text-sm">
-                                                    Drag and drop or click to browse (PDF, DOCX, TXT) - Max 2MB
+                                                    Drag and drop or click to browse (PDF, DOCX) - Max 2MB
                                                 </FieldDescription>
                                             </div>
                                         </>
