@@ -10,13 +10,14 @@ export default function Analyse() {
     const [jobDescription, setJobDescription] = useState<string>("")
     const [file, setFile] = useState<File | null>(null)
     const [error, setError] = useState<string | null>(null)
+    const [resumeContent, setResumeContent] = useState<string>("")
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)
         if (e.target.files && e.target.files.length > 0) {
             const selectedFile = e.target.files[0]
-            if (selectedFile.size > 10 * 1024 * 1024) { // 10MB limit
-                setError("File size must be less than 10MB")
+            if (selectedFile.size > 2 * 1024 * 1024) { // 2MB limit
+                setError("File size must be less than 2MB")
                 e.target.value = '' // Reset input
                 return
             }
@@ -35,6 +36,30 @@ export default function Analyse() {
         // Reset the file input value
         const input = document.getElementById('resume') as HTMLInputElement
         if (input) input.value = ''
+    }
+
+    const handleParsing = async () => {
+        if (!file) {
+            setError("Please select a file to parse")
+            return
+        }
+        try {
+            const formData = new FormData()
+            formData.append("resume", file)
+            const response = await fetch("/api/parse", {
+                method: "POST",
+                body: formData,
+            })
+            const data = await response.json()
+            if (data.error) {
+                setError(data.error)
+            } else {
+                setResumeContent(data.resumeContent)
+            }
+        } catch (error) {
+            console.error("Error parsing file:", error)
+            setError("Failed to parse file")
+        }
     }
 
     return (
@@ -67,7 +92,7 @@ export default function Analyse() {
                             onChange={handleJobDesChange}
                             value={jobDescription}
                             placeholder="Paste a job description or type specific things you want the AI to look for (e.g., 'Does this resume highlight leadership skills?')..." 
-                            className="min-h-40 bg-[#07090d]/50 border-white/10 text-[#e4ddd3] placeholder:text-[#e4ddd3]/30 focus-visible:ring-[#b48c50] focus-visible:border-[#b48c50]/50 rounded-xl resize-none font-sans" 
+                            className="min-h-40 max-h-96 overflow-y-auto no-scrollbar bg-[#07090d]/50 border-white/10 text-[#e4ddd3] placeholder:text-[#e4ddd3]/30 focus-visible:ring-[#b48c50] focus-visible:border-[#b48c50]/50 rounded-xl resize-none font-sans" 
                         />
                     </div>
 
@@ -117,7 +142,7 @@ export default function Analyse() {
                                                     Upload Resume
                                                 </p>
                                                 <FieldDescription className="text-[#e4ddd3]/50 font-sans text-sm">
-                                                    Drag and drop or click to browse (PDF, DOCX) - Max 10MB
+                                                    Drag and drop or click to browse (PDF, DOCX) - Max 2MB
                                                 </FieldDescription>
                                             </div>
                                         </>
