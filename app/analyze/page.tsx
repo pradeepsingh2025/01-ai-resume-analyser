@@ -4,13 +4,14 @@ import { useState } from "react"
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
-import { Upload, Briefcase, Sparkles, FileText, X } from "lucide-react"
+import { Upload, Briefcase, Sparkles, FileText, X, Loader2 } from "lucide-react"
+import { parseResume } from "@/utils/parser"
 
 export default function Analyse() {
     const [jobDescription, setJobDescription] = useState<string>("")
     const [file, setFile] = useState<File | null>(null)
     const [error, setError] = useState<string | null>(null)
-    const [resumeContent, setResumeContent] = useState<string>("")
+    const [loading, setLoading] = useState<boolean>(false)
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)
@@ -24,7 +25,7 @@ export default function Analyse() {
             setFile(selectedFile)
         }
     }
-    const handleJobDesChange = (e : React.ChangeEvent<HTMLTextAreaElement>)=>{
+    const handleJobDesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setJobDescription(e.currentTarget.value)
     }
 
@@ -38,35 +39,35 @@ export default function Analyse() {
         if (input) input.value = ''
     }
 
-    const handleParsing = async () => {
-        if (!file) {
-            setError("Please select a file to parse")
-            return
-        }
+    const handleAnalyze = async (file: File, jobDescription: string) => {
+        setLoading(true)
         try {
-            const formData = new FormData()
-            formData.append("resume", file)
-            const response = await fetch("/api/parse", {
+            const resumeText = await parseResume(file);   // client side parsing
+
+            const res = await fetch("/api/analyze", {
                 method: "POST",
-                body: formData,
-            })
-            const data = await response.json()
-            if (data.error) {
-                setError(data.error)
-            } else {
-                setResumeContent(data.resumeContent)
-            }
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ resumeText, jobDescription }),  // ~4KB payload
+            });
+
+            console.log(await res.json());
         } catch (error) {
-            console.error("Error parsing file:", error)
-            setError("Failed to parse file")
+            console.log(error);
+        } finally {
+            setLoading(false);
+            setJobDescription("");
+            setFile(null);
+            setError(null);
+            const input = document.getElementById('resume') as HTMLInputElement
+            if (input) input.value = ''
         }
-    }
+    };
 
     return (
         <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-24 pb-12 px-6 flex flex-col items-center">
-            
+
             <div className="w-full max-w-3xl flex flex-col gap-8">
-                
+
                 {/* Header Section */}
                 <div className="space-y-2 mb-4">
                     <h1 className="text-3xl font-mono text-[#b48c50] tracking-wider uppercase">
@@ -79,7 +80,7 @@ export default function Analyse() {
 
                 {/* Main Form Area */}
                 <div className="grid grid-cols-1 gap-8 bg-white/2 shadow-slate-800 border border-white/30 rounded-xl p-6 sm:p-8 shadow-lg">
-                    
+
                     {/* Prompt Input */}
                     <div className="space-y-4">
                         <div className="flex items-center gap-2">
@@ -91,8 +92,8 @@ export default function Analyse() {
                         <Textarea
                             onChange={handleJobDesChange}
                             value={jobDescription}
-                            placeholder="Paste a job description or type specific things you want the AI to look for (e.g., 'Does this resume highlight leadership skills?')..." 
-                            className="min-h-40 max-h-96 overflow-y-auto no-scrollbar bg-[#07090d]/50 border-white/10 text-[#e4ddd3] placeholder:text-[#e4ddd3]/30 focus-visible:ring-[#b48c50] focus-visible:border-[#b48c50]/50 rounded-xl resize-none font-sans" 
+                            placeholder="Paste a job description or type specific things you want the AI to look for (e.g., 'Does this resume highlight leadership skills?')..."
+                            className="min-h-40 max-h-96 overflow-y-auto no-scrollbar bg-[#07090d]/50 border-white/10 text-[#e4ddd3] placeholder:text-[#e4ddd3]/30 focus-visible:ring-[#b48c50] focus-visible:border-[#b48c50]/50 rounded-xl resize-none font-sans"
                         />
                     </div>
 
@@ -100,16 +101,16 @@ export default function Analyse() {
                     <div className="space-y-3">
                         <Field>
                             <FieldLabel htmlFor="resume" className="sr-only">Resume</FieldLabel>
-                            
+
                             <div className="relative group cursor-pointer">
-                                <Input 
-                                    id="resume" 
-                                    type="file" 
+                                <Input
+                                    id="resume"
+                                    type="file"
                                     accept=".pdf,.doc,.docx"
                                     onChange={handleFileChange}
                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                 />
-                                
+
                                 <div className={`border-2 border-dashed transition-colors rounded-xl p-8 flex flex-col items-center justify-center gap-4 text-center ${file ? 'border-[#b48c50]/50 bg-[#b48c50]/[0.02]' : 'border-white/[0.1] group-hover:border-[#b48c50]/50 group-hover:bg-[#b48c50]/[0.02]'}`}>
                                     {file ? (
                                         <>
@@ -124,7 +125,7 @@ export default function Analyse() {
                                                     {(file.size / 1024 / 1024).toFixed(2)} MB
                                                 </FieldDescription>
                                             </div>
-                                            <button 
+                                            <button
                                                 onClick={clearFile}
                                                 className="absolute top-4 right-4 p-2 text-[#e4ddd3]/50 hover:text-[#e4ddd3] hover:bg-white/[0.05] rounded-lg transition-colors z-20"
                                                 title="Remove file"
@@ -142,7 +143,7 @@ export default function Analyse() {
                                                     Upload Resume
                                                 </p>
                                                 <FieldDescription className="text-[#e4ddd3]/50 font-sans text-sm">
-                                                    Drag and drop or click to browse (PDF, DOCX) - Max 2MB
+                                                    Drag and drop or click to browse (PDF, DOCX, TXT) - Max 2MB
                                                 </FieldDescription>
                                             </div>
                                         </>
@@ -161,12 +162,13 @@ export default function Analyse() {
 
                 {/* Actions */}
                 <div className="flex justify-end pt-2">
-                    <button 
+                    <button
+                        onClick={() => handleAnalyze(file!, jobDescription)}
                         className="font-mono text-sm tracking-widest uppercase bg-[#b48c50] text-[#07090d] px-8 py-3.5 rounded-lg hover:bg-[#c9a264] transition-all transform hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(180,140,80,0.39)] hover:shadow-[0_6px_20px_rgba(180,140,80,0.23)] flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                         disabled={!file || jobDescription.length === 0}
                     >
-                        <Sparkles className="w-4 h-4" />
-                        Analyze Now
+                        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                        {loading ? "Analyzing..." : "Analyze Now"}
                     </button>
                 </div>
 

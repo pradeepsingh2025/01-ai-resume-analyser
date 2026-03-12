@@ -1,45 +1,31 @@
-import fs from 'fs';
-import path from 'path';
-import {PDFParse, TextResult}  from 'pdf-parse';
 import mammoth from 'mammoth';
 
-export class ResumeParser {
-    
-    private async parsePDF(filePath: string): Promise<TextResult> {
-        const dataBuffer = fs.readFileSync(filePath);
-        const data = new PDFParse(dataBuffer);
-        const text = await data.getText();
-        return text;
+export async function parseResume(file: File): Promise<string> {
+    if (file.type === "application/pdf") {
+        const pdfjs = await import("pdfjs-dist");
+
+        // Next.js/Turbopack have trouble importing raw worker URLs natively.
+        // Fallback to loading the worker from a CDN that matches the installed version.
+        pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+
+        const buffer = await file.arrayBuffer();
+        const pdf = await pdfjs.getDocument({ data: buffer }).promise;
+        const pages = await Promise.all(
+            Array.from({ length: pdf.numPages }, (_, i) =>
+                pdf.getPage(i + 1).then(p => p.getTextContent())
+            )
+        );
+        return pages
+            .flatMap((p: any) => p.items.map((item: any) => item.str))
+            .join(" ");
     }
 
-    
-    private async parseDOCX(filePath: string): Promise<string> {
-        const result = await mammoth.extractRawText({ path: filePath });
-        return result.value;
+    if (file.name.endsWith(".docx")) {
+        const buffer = await file.arrayBuffer();
+        const { value } = await mammoth.extractRawText({ arrayBuffer: buffer });
+        return value;
     }
 
-    /**
-     * Main method to route the file to the correct parser
-     */
-    public async extractText(filePath: string): Promise<TextResult | string> {
-        if (!fs.existsSync(filePath)) {
-            throw new Error(`File not found at path: ${filePath}`);
-        }
-
-        const ext = path.extname(filePath).toLowerCase();
-
-        try {
-            switch (ext) {
-                case '.pdf':
-                    return await this.parsePDF(filePath);
-                case '.docx':
-                    return await this.parseDOCX(filePath);
-                default:
-                    throw new Error(`Unsupported file type: ${ext}. Only PDF, and DOCX are supported.`);
-            }
-        } catch (error) {
-            console.error(`Error parsing file ${filePath}:`, error);
-            throw error;
-        }
-    }
+    // .txt fallback
+    return file.text();
 }
