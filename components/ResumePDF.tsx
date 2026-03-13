@@ -7,9 +7,9 @@ import {
 } from "@react-pdf/renderer";
 import { ResumeData } from "@/utils/types";
 import { styles } from "./styles";
-import ContactRow from "./resumeSections/contactRow";
 import SkillsSection from "./resumeSections/SkillsSection";
 import DynamicSection from "./resumeSections/DynamicSection";
+import ContactRow from "./resumeSections/ContactRow";
 
 
 export function ResumePDF({ data }: { data: ResumeData }) {
