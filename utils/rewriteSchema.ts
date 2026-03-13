@@ -7,6 +7,13 @@ export const rewriteSchema = z.object({
     phone: z.string().optional(),
     linkedin: z.string().optional(),
     github: z.string().optional(),
+    location: z.string().optional(),
+    website: z.string().optional(),
+    portfolio: z.string().optional(),
+    leetcode: z.string().optional(),
+    hackerrank: z.string().optional(),
+    codechef: z.string().optional(),
+    codeforces: z.string().optional(),
   }).optional(),
 
   // Fixed sections you always want if present
