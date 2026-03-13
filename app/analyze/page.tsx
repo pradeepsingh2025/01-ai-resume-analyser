@@ -93,7 +93,7 @@ export default function Analyse() {
                         <Textarea
                             onChange={handleJobDesChange}
                             value={jobDescription}
-                            placeholder="Paste a job description or type specific things you want the AI to look for in the resume (e.g., 'Does this resume highlight leadership skills?')"
+                            placeholder="Paste a job description here..."
                             className="min-h-40 max-h-96 overflow-y-auto no-scrollbar bg-[#07090d]/50 border-white/10 text-[#e4ddd3] placeholder:text-[#e4ddd3]/30 focus-visible:ring-[#b48c50] focus-visible:border-[#b48c50]/50 rounded-xl resize-none font-sans"
                         />
                     </div>
