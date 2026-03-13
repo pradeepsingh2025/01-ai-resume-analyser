@@ -1,11 +1,18 @@
+import { SkillCategory } from "@/utils/types";
 import { View, Text } from "@react-pdf/renderer";
-import { styles } from "../styles";
+import { styles as s } from "../styles";
+import SectionHeader from "./SectionHeader";
 
-export default function SkillsSection({ skills }: { skills: string[] }) {
+export default function SkillsSection({ skills }: { skills: SkillCategory[] }) {
   return (
-    <View style={styles.skillsGrid}>
-      {skills.map((skill, i) => (
-        <Text key={i} style={styles.skillPill}>{skill}</Text>
+    <View>
+      <SectionHeader title="Skills" />
+      {skills.map((cat, i) => (
+        <View key={i} style={s.skillRow}>
+          <Text style={s.bulletDot}>•</Text>
+          <Text style={s.skillLabel}>{cat.label}: </Text>
+          <Text style={s.skillValue}>{cat.items.join(", ")}</Text>
+        </View>
       ))}
     </View>
   );

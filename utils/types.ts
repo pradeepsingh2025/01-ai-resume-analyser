@@ -7,14 +7,20 @@ export interface Entry {
   paragraph?: string;
 }
 
-export interface Section {
-  title: string;
-  type: SectionType;
-  entries: Entry[];
+export interface EducationEntry {
+  institution: string;  // "Galgotias College of Engineering and Technology"
+  degree: string;       // "B.Tech ( IT )"
+  duration: string;     // "Nov 2022 - August 2026"
+  coursework?: string;  // "OOPS, DBMS, ..."
+}
+
+export interface SkillCategory {
+  label: string;       // "Languages", "Frameworks and Libraries" etc.
+  items: string[];     // ["Java", "TypeScript", ...]
 }
 
 export interface ResumeData {
-  name?: string;
+  name: string;
   contact?: {
     email?: string;
     phone?: string;
@@ -28,7 +34,19 @@ export interface ResumeData {
     codechef?: string;
     codeforces?: string;
   };
+  education?: EducationEntry[];
+  projects?: ProjectEntry[];
+  achievements?: AchievementEntry[];
   summary?: string;
-  skills?: string[];
-  sections: Section[];
+  skills?: SkillCategory[];
+}
+
+export interface ProjectEntry {
+  name: string;         // "Movie Ticket Booking System"
+  type: string;         // "Personal Project" | "Client Project"
+  bullets: string[];
+}
+
+export interface AchievementEntry {
+  text: string;
 }

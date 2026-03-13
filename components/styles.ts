@@ -1,161 +1,130 @@
 import { StyleSheet } from "@react-pdf/renderer";
 
-const colors = {
-  primary: "#1a1a2e",
-  accent: "#b48c50",
-  text: "#2d2d2d",
-  muted: "#6b6b6b",
-  border: "#e0d9cf",
-  bg: "#fafaf8",
-};
 
 export const styles = StyleSheet.create({
   page: {
-    backgroundColor: colors.bg,
-    paddingTop: 44,
-    paddingBottom: 44,
+    backgroundColor: "#ffffff",
+    paddingTop: 36,
+    paddingBottom: 36,
     paddingHorizontal: 48,
-    fontFamily: "Helvetica",
-    fontSize: 10,
-    color: colors.text,
-    lineHeight: 1.5,
+    fontFamily: "Times-Roman",
+    fontSize: 10.5,
+    color: "#000000",
+    lineHeight: 1.45,
   },
 
-  // Header
-  header: {
-    marginBottom: 20,
-    borderBottomWidth: 2,
-    borderBottomColor: colors.accent,
-    paddingBottom: 12,
-  },
+  // Name — title case, large, centered
   name: {
-    fontSize: 26,
-    fontFamily: "Helvetica-Bold",
-    color: colors.primary,
-    letterSpacing: 1.2,
-    marginBottom: 6,
+    fontSize: 20,
+    fontFamily: "Times-Bold",
+    textAlign: "center",
+    marginBottom: 4,
+    color: "#000000",
+    letterSpacing: 0.3,
   },
+
+  // Contact — centered, pipe-separated
   contactRow: {
     flexDirection: "row",
+    justifyContent: "center",
     flexWrap: "wrap",
-    gap: 4,
+    marginBottom: 10,
   },
   contactItem: {
-    fontSize: 9,
-    color: colors.muted,
-    marginRight: 12,
-  },
-  contactDot: {
-    fontSize: 9,
-    color: colors.accent,
-    marginRight: 12,
-  },
-
-  // Summary
-  summary: {
     fontSize: 10,
-    color: colors.text,
-    lineHeight: 1.6,
-    marginBottom: 16,
-    fontStyle: "italic",
+    color: "#000000",
+    fontFamily: "Times-Roman",
+  },
+  contactPipe: {
+    fontSize: 10,
+    color: "#000000",
+    marginHorizontal: 5,
   },
 
-  // Section
-  section: {
-    marginBottom: 14,
-  },
+  // Section header — bold label + full rule beneath
   sectionTitle: {
-    fontSize: 11,
-    fontFamily: "Helvetica-Bold",
-    color: colors.primary,
-    letterSpacing: 0.8,
-    textTransform: "uppercase",
-    marginBottom: 6,
-    paddingBottom: 3,
-    borderBottomWidth: 0.75,
-    borderBottomColor: colors.border,
+    fontSize: 11.5,
+    fontFamily: "Times-Bold",
+    color: "#000000",
+    marginBottom: 2,
+    marginTop: 10,
+  },
+  sectionRule: {
+    borderBottomWidth: 0.8,
+    borderBottomColor: "#000000",
+    marginBottom: 5,
   },
 
-  // Entry (experience, education, projects)
-  entry: {
-    marginBottom: 8,
-  },
-  entryHeader: {
+  // Education row
+  eduHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: 2,
+    marginBottom: 1,
   },
-  entryHeading: {
+  eduInstitution: {
+    fontFamily: "Times-Bold",
     fontSize: 10.5,
-    fontFamily: "Helvetica-Bold",
-    color: colors.primary,
     flex: 1,
   },
-  entrySubheading: {
-    fontSize: 9,
-    color: colors.muted,
+  eduDuration: {
+    fontSize: 10.5,
+    fontFamily: "Times-Roman",
     textAlign: "right",
     marginLeft: 8,
   },
 
-  // Bullets
+  // Bullet rows
   bulletRow: {
     flexDirection: "row",
     marginBottom: 2,
     paddingLeft: 4,
   },
   bulletDot: {
-    fontSize: 10,
-    color: colors.accent,
+    fontSize: 10.5,
     marginRight: 6,
-    marginTop: 0.5,
+    fontFamily: "Times-Roman",
+    lineHeight: 1.45,
   },
   bulletText: {
-    fontSize: 9.5,
-    color: colors.text,
+    fontSize: 10.5,
+    fontFamily: "Times-Roman",
     flex: 1,
-    lineHeight: 1.5,
+    lineHeight: 1.45,
   },
 
-  // Skills (pill list)
-  skillsGrid: {
+  // Skill bullet — "• Category: items"
+  skillRow: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 4,
+    marginBottom: 2,
+    paddingLeft: 4,
   },
-  skillPill: {
-    backgroundColor: "#f0ede8",
-    borderWidth: 0.5,
-    borderColor: colors.border,
-    borderRadius: 3,
-    paddingHorizontal: 7,
-    paddingVertical: 2.5,
-    fontSize: 9,
-    color: colors.text,
-    marginBottom: 4,
-    marginRight: 4,
+  skillLabel: {
+    fontFamily: "Times-Bold",
+    fontSize: 10.5,
+  },
+  skillValue: {
+    fontFamily: "Times-Roman",
+    fontSize: 10.5,
+    flex: 1,
   },
 
-  // Paragraph (summary / objective type sections)
-  paragraph: {
-    fontSize: 9.5,
-    color: colors.text,
-    lineHeight: 1.6,
-  },
-
-  // Standalone list (certs, awards, languages)
-  listItem: {
+  // Project header row
+  projectHeaderRow: {
     flexDirection: "row",
-    marginBottom: 3,
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 2,
+    marginTop: 4,
   },
-  listDot: {
-    fontSize: 10,
-    color: colors.accent,
-    marginRight: 6,
+  projectName: {
+    fontFamily: "Times-Bold",
+    fontSize: 10.5,
   },
-  listText: {
-    fontSize: 9.5,
-    color: colors.text,
+  projectType: {
+    fontFamily: "Times-Roman",
+    fontSize: 10.5,
+    textAlign: "right",
+    marginLeft: 8,
   },
 });

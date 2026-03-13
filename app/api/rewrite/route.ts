@@ -18,21 +18,26 @@ export async function POST(req: Request) {
     }),
     prompt: `
   Rewrite this resume to better match the job description.
-  
-  IMPORTANT RULES:
-  - Only include sections that exist in the original resume
-  - Do NOT add sections like "Experience" if the person has none
-  - Do NOT fabricate companies, roles, degrees or certifications
-  - Preserve the resume type (fresher/experienced/academic)
-  - For each section, pick the most appropriate type:
-    * "entries" for experience, education, projects (has heading + bullets)
-    * "list" for skills, certifications, languages
-    * "paragraph" for summary, objective
-    * "bullets" for achievements, activities
 
+  OUTPUT FORMAT — follow exactly:
+  - name: person's name as-is (title case, not uppercase)
+  - contact: keep all original links/values unchanged
+  - education: institution + degree on one line, date range separate
+  - skills: grouped by category (Languages, Frameworks, Databases etc.)
+    each category has a label and array of items
+  - projects: each has name, type ("Personal Project" / "Client Project"),
+    and 3-5 strong action-verb bullet points
+  - achievements: flat array of bullet strings
+
+  RULES:
+  - Do NOT fabricate experience, companies, or certifications
+  - Incorporate missing keywords naturally into project bullets
+  - Keep bullet points concise, action-verb led (Built, Architected, Designed)
+  - Preserve original structure — only rewrite/strengthen the content
+
+  Missing keywords: ${missingKeywordsArray.join(", ")}
   Job Description: ${jobDescription}
   Original Resume: ${resumeText}
-  Missing Keywords to incorporate naturally: ${missingKeywordsArray.join(", ")}
 `,
   });
 

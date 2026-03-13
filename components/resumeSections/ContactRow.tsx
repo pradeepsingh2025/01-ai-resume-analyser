@@ -22,9 +22,10 @@ export default function ContactRow({ contact }: { contact: ResumeData["contact"]
   return (
     <View style={styles.contactRow}>
       {items.map((item, i) => (
-        <Text key={i} style={styles.contactItem}>
-          {i > 0 ? "· " : ""}{item}
-        </Text>
+        <View key={i} style={{ flexDirection: "row" }}>
+          {i > 0 && <Text style={styles.contactPipe}>|</Text>}
+          <Text style={styles.contactItem}>{item}</Text>
+        </View>
       ))}
     </View>
   );
