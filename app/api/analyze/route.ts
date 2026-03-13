@@ -1,15 +1,7 @@
 import { generateText, Output } from "ai";
 import { google } from "@ai-sdk/google";
 import { auth } from "@clerk/nextjs/server";
-import { z } from "zod";
-
-const resumeSchema = z.object({
-  atsScore: z.number().min(0).max(100),
-  missingKeywords: z.array(z.string()),
-  strengths: z.array(z.string()),
-  weaknesses: z.array(z.string()),
-  overallFeedback: z.string(),
-});
+import { analyseSchema } from "@/utils/analyseSchema";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
@@ -19,7 +11,7 @@ export async function POST(req: Request) {
 
   const { output } = await generateText({
     model: google("gemini-2.5-flash"),
-    output: Output.object({ schema: resumeSchema }),
+    output: Output.object({ schema: analyseSchema }),
     prompt: `
       You are an expert ATS resume analyzer.
       

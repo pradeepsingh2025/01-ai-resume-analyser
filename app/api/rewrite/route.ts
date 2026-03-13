@@ -1,7 +1,7 @@
 // app/api/rewrite/route.ts
 import { generateText, Output } from "ai";
 import { google } from "@ai-sdk/google";
-import { z } from "zod";
+import { rewriteSchema } from "@/utils/rewriteSchema";
 import { auth } from "@clerk/nextjs/server";
 
 export async function POST(req: Request) {
@@ -13,19 +13,26 @@ export async function POST(req: Request) {
   const { output } = await generateText({
     model: google("gemini-2.0-flash"),
     output: Output.object({
-      schema: z.object({
-        rewrittenResume: z.string(),
-        changesExplained: z.array(z.string()),
-      }),
+      schema: rewriteSchema,
     }),
     prompt: `
-      Rewrite this resume to better match the job description.
-      Naturally incorporate these missing keywords: ${missingKeywords.join(", ")}
-      Keep the candidate's voice and don't fabricate experience.
+  Rewrite this resume to better match the job description.
+  
+  IMPORTANT RULES:
+  - Only include sections that exist in the original resume
+  - Do NOT add sections like "Experience" if the person has none
+  - Do NOT fabricate companies, roles, degrees or certifications
+  - Preserve the resume type (fresher/experienced/academic)
+  - For each section, pick the most appropriate type:
+    * "entries" for experience, education, projects (has heading + bullets)
+    * "list" for skills, certifications, languages
+    * "paragraph" for summary, objective
+    * "bullets" for achievements, activities
 
-      Job Description: ${jobDescription}
-      Resume: ${resumeText}
-    `,
+  Job Description: ${jobDescription}
+  Original Resume: ${resumeText}
+  Missing Keywords to incorporate naturally: ${missingKeywords.join(", ")}
+`,
   });
 
   return Response.json(output);
