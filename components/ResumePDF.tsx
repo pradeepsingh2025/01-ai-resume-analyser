@@ -19,27 +19,27 @@ export function ResumePDF({ data }: { data: ResumeData }) {
 
         {/* Header — name + contact */}
         <View style={styles.header}>
-          <Text style={styles.name}>{data.name.toUpperCase()}</Text>
-          <ContactRow contact={data.contact} />
+          <Text style={styles.name}>{data?.name?.toUpperCase()}</Text>
+          <ContactRow contact={data?.contact} />
         </View>
 
         {/* Summary — if present as top-level field */}
-        {data.summary && (
+        {data?.summary && (
           <View style={{ marginBottom: 14 }}>
-            <Text style={styles.summary}>{data.summary}</Text>
+            <Text style={styles.summary}>{data?.summary}</Text>
           </View>
         )}
 
         {/* Skills — rendered as pills if top-level */}
-        {data.skills && data.skills.length > 0 && (
+        {data?.skills && data?.skills.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Skills</Text>
-            <SkillsSection skills={data.skills} />
+            <SkillsSection skills={data?.skills} />
           </View>
         )}
 
         {/* All dynamic sections */}
-        {data.sections.map((section, i) => (
+        {data?.sections?.map((section, i) => (
           <DynamicSection key={i} section={section} />
         ))}
 

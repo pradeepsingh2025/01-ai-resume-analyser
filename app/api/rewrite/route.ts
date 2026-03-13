@@ -9,9 +9,10 @@ export async function POST(req: Request) {
   if (!userId) return new Response("Unauthorized", { status: 401 });
 
   const { resumeText, jobDescription, missingKeywords } = await req.json();
+  const missingKeywordsArray = JSON.parse(missingKeywords);
 
   const { output } = await generateText({
-    model: google("gemini-2.0-flash"),
+    model: google("gemini-2.5-flash"),
     output: Output.object({
       schema: rewriteSchema,
     }),
@@ -31,7 +32,7 @@ export async function POST(req: Request) {
 
   Job Description: ${jobDescription}
   Original Resume: ${resumeText}
-  Missing Keywords to incorporate naturally: ${missingKeywords.join(", ")}
+  Missing Keywords to incorporate naturally: ${missingKeywordsArray.join(", ")}
 `,
   });
 

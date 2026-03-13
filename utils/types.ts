@@ -14,7 +14,7 @@ export interface Section {
 }
 
 export interface ResumeData {
-  name: string;
+  name?: string;
   contact?: {
     email?: string;
     phone?: string;

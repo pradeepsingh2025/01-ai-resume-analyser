@@ -6,8 +6,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Upload, Briefcase, Sparkles, FileText, X, Loader2 } from "lucide-react"
 import { parseResume } from "@/utils/parser"
+import { useRouter } from "next/navigation"
 
-export default function Analyse() {
+export default function Analyse() { 
+    const router = useRouter()
     const [jobDescription, setJobDescription] = useState<string>("")
     const [file, setFile] = useState<File | null>(null)
     const [error, setError] = useState<string | null>(null)
@@ -50,7 +52,8 @@ export default function Analyse() {
                 body: JSON.stringify({ resumeText, jobDescription }),  // ~4KB payload
             });
 
-            console.log(await res.json());
+            const data = await res.json();
+            router.push(`/result?data=${encodeURIComponent(JSON.stringify(data))}&jobDescription=${encodeURIComponent(jobDescription)}&resumeText=${encodeURIComponent(resumeText)}`);
         } catch (error) {
             console.log(error);
             setError("Something went wrong. Please try again.");
