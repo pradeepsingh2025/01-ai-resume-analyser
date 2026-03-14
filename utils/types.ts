@@ -50,3 +50,12 @@ export interface ProjectEntry {
 export interface AchievementEntry {
   text: string;
 }
+
+export interface AnalysisResult {
+    atsScore: number;
+    strengths: string[];
+    weaknesses: string[];
+    overallFeedback: string;
+    missingKeywords: string[];
+}
+

@@ -1,21 +1,46 @@
-
+"use client";
 import Link from "next/link";
-import { ChevronLeft, Target, Lightbulb, TrendingUp, AlertCircle, CheckCircle2, ExternalLink } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ChevronLeft, Target, Lightbulb, TrendingUp, AlertCircle, CheckCircle2, ExternalLink, Loader2 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { AnalysisResult } from "@/utils/types";
 
-export default async function Result({ searchParams }: { searchParams: Promise<{ data: string, jobDescription: string, resumeText: string }> }) {
-    const params = await searchParams;
-    let data : any;
-    let jobDescription : string;
-    let resumeText : string;
-    try {
-        data = JSON.parse(params.data);
-        jobDescription = params.jobDescription;
-        resumeText = params.resumeText;
-    } catch (e) {
-        data = {};
-        jobDescription = "";
-        resumeText = "";
-    }
+export default function Result() {
+    const params = useSearchParams();   
+    const [data, setData] = useState<AnalysisResult>({} as AnalysisResult);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            const analysisId = params.get("id")!;
+            console.log(analysisId);
+            const res = await fetch(`/api/analyze/${analysisId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const result = await res.json();
+            setData(result);
+            setLoading(false);
+        };
+        fetchData().then(() => setLoading(false)).catch((error) => {
+            console.error("Error fetching analysis data:", error);
+            setLoading(false);
+        });
+    }, [params]);
+    
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-24 pb-12 px-6 flex flex-col items-center">
+                <div className="w-full max-w-3xl flex flex-col gap-8 text-center">
+                    <h1 className="text-2xl text-red-500">Loading results...</h1>
+                    <Loader2 className="w-8 h-8 animate-spin" />
+                </div>
+            </div>
+        );
+    }   
 
     if (!data) {
         return (
@@ -54,8 +79,8 @@ export default async function Result({ searchParams }: { searchParams: Promise<{
                                 Analysis Result
                             </h1>
 
-                            <Link href={`/rewrite?missingKeywords=${encodeURIComponent(JSON.stringify(data.missingKeywords))}&jobDescription=${encodeURIComponent(jobDescription)}&resumeText=${encodeURIComponent(resumeText)}`} className="px-2 py-1 rounded-lg flex items-center gap-1 text-sm shadow-sm text-white/70 font-sans transition-colors cursor-pointer group hover:underline hover:text-blue-400">
-                               Re-write <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-all ease-in-out duration-200 hover:text-blue-400"/>
+                            <Link href={`#`} className="px-2 py-1 rounded-lg flex items-center gap-1 text-sm shadow-sm text-white/70 font-sans transition-colors cursor-pointer group hover:underline hover:text-blue-400">
+                                Re-write <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-all ease-in-out duration-200 hover:text-blue-400" />
                             </Link>
 
                         </div>
