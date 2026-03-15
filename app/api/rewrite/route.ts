@@ -15,10 +15,16 @@ export async function POST(req: Request) {
   console.log("resume Text", resumeText);
 
   let missingKeywordsArray: string[] = [];
-  try {
-    missingKeywordsArray = JSON.parse(missingKeywords);
-  } catch (error) {
-    console.log("error", error);
+  if (typeof missingKeywords === "string" && missingKeywords.trim()) {
+    try {
+      const parsed = JSON.parse(missingKeywords);
+      missingKeywordsArray = Array.isArray(parsed) ? parsed : [parsed];
+    } catch {
+      // Not valid JSON — treat as comma-separated string
+      missingKeywordsArray = missingKeywords.split(",").map((k: string) => k.trim()).filter(Boolean);
+    }
+  } else if (Array.isArray(missingKeywords)) {
+    missingKeywordsArray = missingKeywords;
   }
   console.log("missing keywords array",missingKeywordsArray)
 
