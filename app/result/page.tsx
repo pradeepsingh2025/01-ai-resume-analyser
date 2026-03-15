@@ -6,7 +6,8 @@ import { useSearchParams } from "next/navigation";
 import { AnalysisResult } from "@/utils/types";
 
 export default function Result() {
-    const params = useSearchParams();   
+    const params = useSearchParams(); 
+    const analysisId = params.get("id")  
     const [data, setData] = useState<AnalysisResult>({} as AnalysisResult);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -79,7 +80,7 @@ export default function Result() {
                                 Analysis Result
                             </h1>
 
-                            <Link href={`#`} className="px-2 py-1 rounded-lg flex items-center gap-1 text-sm shadow-sm text-white/70 font-sans transition-colors cursor-pointer group hover:underline hover:text-blue-400">
+                            <Link href={`/rewrite?id=${analysisId}`} className="px-2 py-1 rounded-lg flex items-center gap-1 text-sm shadow-sm text-white/70 font-sans transition-colors cursor-pointer group hover:underline hover:text-blue-400">
                                 Re-write <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-all ease-in-out duration-200 hover:text-blue-400" />
                             </Link>
 

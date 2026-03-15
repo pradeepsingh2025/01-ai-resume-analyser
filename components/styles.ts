@@ -48,11 +48,47 @@ export const styles = StyleSheet.create({
     color: "#000000",
     marginBottom: 2,
     marginTop: 10,
+    textTransform: "uppercase",   // ✅ Standard resume convention
   },
   sectionRule: {
     borderBottomWidth: 0.8,
     borderBottomColor: "#000000",
     marginBottom: 5,
+  },
+
+  // Summary
+  summaryText: {                  // ✅ New
+    fontSize: 10.5,
+    fontFamily: "Times-Roman",
+    lineHeight: 1.5,
+    marginBottom: 2,
+    textAlign: "left",
+  },
+
+  // Experience — mirrors education layout
+  expHeaderRow: {                 // ✅ New
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 1,
+    marginTop: 5,
+  },
+  expLeftCol: {                   // ✅ New
+    flex: 1,
+  },
+  expCompany: {                   // ✅ New
+    fontFamily: "Times-Bold",
+    fontSize: 10.5,
+  },
+  expTitle: {                     // ✅ New — title on its own line, italic
+    fontFamily: "Times-Italic",
+    fontSize: 10.5,
+  },
+  expDurationLocation: {          // ✅ New
+    fontSize: 10.5,
+    fontFamily: "Times-Roman",
+    textAlign: "right",
+    marginLeft: 8,
   },
 
   // Education row
@@ -61,11 +97,18 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     marginBottom: 1,
+    marginTop: 5,
+  },
+  eduLeftCol: {
+    flex: 1,
   },
   eduInstitution: {
     fontFamily: "Times-Bold",
     fontSize: 10.5,
-    flex: 1,
+  },
+  eduDegree: {
+    fontFamily: "Times-Italic",
+    fontSize: 10.5,
   },
   eduDuration: {
     fontSize: 10.5,
@@ -114,17 +157,36 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: 2,
-    marginTop: 4,
+    marginBottom: 1,
+    marginTop: 5,
+  },
+  projectNameRow: {               // ✅ New — wraps name + optional link
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    gap: 6,
   },
   projectName: {
     fontFamily: "Times-Bold",
     fontSize: 10.5,
+  },
+  projectLink: {                  // ✅ New
+    fontFamily: "Times-Roman",
+    fontSize: 9.5,
+    color: "#0000EE",
+    textDecoration: "none",
   },
   projectType: {
     fontFamily: "Times-Roman",
     fontSize: 10.5,
     textAlign: "right",
     marginLeft: 8,
+  },
+  projectTechStack: {             // ✅ New
+    fontFamily: "Times-Italic",
+    fontSize: 10,
+    color: "#333333",
+    paddingLeft: 4,
+    marginBottom: 2,
   },
 });

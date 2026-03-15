@@ -11,13 +11,19 @@ export default function EducationSection({ entries }: { entries: EducationEntry[
       {entries.map((edu, i) => (
         <View key={i}>
           <View style={s.eduHeaderRow}>
-            <Text style={s.eduInstitution}>
-              {edu.institution}, {edu.degree}
-            </Text>
+            {/* ✅ Institution and degree on separate lines for clarity */}
+            <View style={s.eduLeftCol}>
+              <Text style={s.eduInstitution}>{edu.institution}</Text>
+              <Text style={s.eduDegree}>{edu.degree}</Text>
+            </View>
             <Text style={s.eduDuration}>{edu.duration}</Text>
           </View>
+          {/* ✅ GPA — only renders if present (3.5+ for new grads) */}
+          {edu.gpa && (
+            <Bullet text={`GPA: ${edu.gpa}`} />
+          )}
           {edu.coursework && (
-            <Bullet text={`Coursework: ${edu.coursework}`} />
+            <Bullet text={`Relevant Coursework: ${edu.coursework}`} />
           )}
         </View>
       ))}

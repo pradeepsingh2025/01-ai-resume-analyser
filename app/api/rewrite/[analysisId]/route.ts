@@ -8,14 +8,19 @@ export async function GET(req: Request, { params }: { params: { analysisId: stri
     const { analysisId } = await params;
     if (!analysisId) return new Response("Missing analysis ID", { status: 400 });
 
-    const analysis = await prismaClient.analysis.findUnique({
+    const prevAnalysis = await prismaClient.analysis.findUnique({
         where: {
             id: analysisId,
             userId,
         },
+        select: {
+            resumeText: {select: {content: true}},
+            jobDescription: {select: {content: true}},
+            missingKeywords: true,
+        },
     });
 
-    if (!analysis) return new Response("Analysis not found", { status: 404 });
+    if (!prevAnalysis) return new Response("Analysis not found", { status: 404 });
 
-    return Response.json(analysis);
+    return Response.json(prevAnalysis);
 }

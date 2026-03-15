@@ -1,14 +1,13 @@
-import { AchievementEntry } from "@/utils/types";
-import { View, Text } from "@react-pdf/renderer";
+import { View } from "@react-pdf/renderer";
 import SectionHeader from "./SectionHeader";
 import Bullet from "./BulletPoint";
 
-export default function AchievementsSection({ achievements }: { achievements: AchievementEntry[] }) {
+export default function AchievementsSection({ achievements }: { achievements: string[] }) {
   return (
     <View>
       <SectionHeader title="Achievements and Certifications" />
       {achievements.map((a, i) => (
-        <Bullet key={i} text={a.text} />
+        <Bullet key={i} text={a} />
       ))}
     </View>
   );

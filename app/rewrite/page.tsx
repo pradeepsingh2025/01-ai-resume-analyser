@@ -1,21 +1,39 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { ResumeData } from "@/utils/types";
-import { downloadResumePDF, ResumePDF } from "@/components/ResumePDF";
+import { useState, useEffect } from "react";
+import { RewriteOutput } from "@/utils/types";
+import { downloadResumePDF } from "@/components/ResumePDF";
 
 export default function Rewrite() {
     const params = useSearchParams();
-    const [resumeText, setResumeText] = useState<string>(params.get("resumeText") || "");
-    const [jobDescription, setJobDescription] = useState<string>(params.get("jobDescription") || "");
-    const [missingKeywords, setMissingKeywords] = useState<string[]>(JSON.parse(JSON.stringify(params.get("missingKeywords")) || "[]"));
+    const analysisId = params.get("id")!
+    const [resumeText, setResumeText] = useState<string>("");
+    const [jobDescription, setJobDescription] = useState<string>("");
+    const [missingKeywords, setMissingKeywords] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
-    const [rewrittenResume, setRewrittenResume] = useState<ResumeData>();
+    const [rewrittenResume, setRewrittenResume] = useState<RewriteOutput>();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await fetch(`/api/rewrite/${analysisId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await res.json();
+            console.log("data resumeText", data.resumeText.content);
+            console.log("data jobd", data.jobDescription.content);
+            console.log("data missingWords", data.missingKeywords);
+            setResumeText(data.resumeText.content);
+            setJobDescription(data.jobDescription.content);
+            setMissingKeywords(data.missingKeywords);
+        }
+        fetchData();
+    }, [params]);
 
 
 
-   const handleRewrite = async () => {
+    const handleRewrite = async () => {
         setLoading(true);
         setError("");
         try {
@@ -25,7 +43,7 @@ export default function Rewrite() {
                 body: JSON.stringify({ resumeText, jobDescription, missingKeywords }),
             });
             const data = await res.json();
-            console.log("data",data);
+            console.log("data after rewrite", data);
             setRewrittenResume(data);
         } catch (error) {
             setError("Failed to rewrite resume");
@@ -34,7 +52,7 @@ export default function Rewrite() {
         }
     }
 
-    if(error){
+    if (error) {
         return (
             <div className="flex items-center justify-center mt-30">
                 Oops!
@@ -60,7 +78,7 @@ export default function Rewrite() {
                     </div>
                 </div>
                 {/* <ResumePDF data={rewrittenResume!} /> */}
-                <button onClick={() => downloadResumePDF(rewrittenResume as ResumeData)} className="w-full p-4 rounded-2xl bg-[#b48c50] text-white font-sans font-bold tracking-wide hover:bg-[#b48c50]/80 cursor-pointer">
+                <button onClick={() => downloadResumePDF(rewrittenResume as RewriteOutput)} className="w-full p-4 rounded-2xl bg-[#b48c50] text-white font-sans font-bold tracking-wide hover:bg-[#b48c50]/80 cursor-pointer">
                     Download Resume
                 </button>
             </div>
