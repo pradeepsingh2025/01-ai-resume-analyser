@@ -23,6 +23,7 @@ const FIELD_LABELS: Record<string, string> = {
 export default function ContactRow({ contact }: { contact: ResumeData["contact"] }) {
   if (!contact) return null;
   const items = Object.entries(contact).filter(([, v]) => Boolean(v)) as [string, string][];
+  console.log("items", items);
 
   return (
     <View style={styles.contactRow}>

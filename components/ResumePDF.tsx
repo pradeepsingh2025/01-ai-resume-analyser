@@ -23,6 +23,7 @@ export function ResumePDF({ data }: { data: ResumeData }) {
 
         {/* 1. Header */}
         <Text style={styles.name}>{data.name}</Text>
+        
         <ContactRow contact={data.contact} />
 
         {/* 2. Summary — optional, only renders if present */}

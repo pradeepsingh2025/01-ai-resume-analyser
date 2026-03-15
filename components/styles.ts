@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Times-Bold",
     textAlign: "center",
-    marginBottom: 4,
+    marginBottom: 10,
     color: "#000000",
     letterSpacing: 0.3,
   },
@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     flexWrap: "wrap",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   contactItem: {
     fontSize: 10,
