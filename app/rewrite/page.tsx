@@ -5,6 +5,7 @@ import { RewriteOutput } from "@/utils/types";
 import { downloadResumePDF, ResumePDF } from "@/components/ResumePDF";
 import { PDFViewer } from "@react-pdf/renderer";
 import { Download, Loader2 } from "lucide-react";
+import { useAnalysisStore } from "@/store/useAnalysisStore";
 
 export default function Rewrite() {
     const params = useSearchParams();
@@ -16,7 +17,16 @@ export default function Rewrite() {
     const [error, setError] = useState<string>("");
     const [rewrittenResume, setRewrittenResume] = useState<RewriteOutput>();
 
+    const analysisEntry = useAnalysisStore((state) => state.analyses[analysisId!]);
+
     useEffect(() => {
+        if (analysisEntry?.analysisResult) {
+            setResumeText(analysisEntry.resumeText);
+            setJobDescription(analysisEntry.jobDescription);
+            setMissingKeywords(analysisEntry.analysisResult.missingKeywords);
+            setLoading(false);
+            return;
+        }
         const fetchData = async () => {
             const res = await fetch(`/api/rewrite/${analysisId}`, {
                 method: "GET",

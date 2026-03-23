@@ -70,6 +70,8 @@ export async function POST(req: Request) {
     `,
   });
 
+  
+
   const { id: analysisId } = await prismaClient.analysis.create({
     data: {
       atsScore: output.atsScore,
@@ -83,7 +85,7 @@ export async function POST(req: Request) {
     },
   });
 
-  return Response.json(analysisId);
+  return Response.json({analysisId, output});
 }
 
 

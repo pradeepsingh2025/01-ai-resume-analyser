@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, Target, Lightbulb, TrendingUp, AlertCircle, CheckCircle2, ExternalLink, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { AnalysisResult } from "@/utils/types";
+import { useAnalysisStore } from "@/store/useAnalysisStore";
 
 export default function Result() {
     const params = useSearchParams();
@@ -11,7 +12,15 @@ export default function Result() {
     const [data, setData] = useState<AnalysisResult>({} as AnalysisResult);
     const [loading, setLoading] = useState<boolean>(true);
 
+    const analysisEntry = useAnalysisStore((state) => state.analyses[analysisId!]);
+
     useEffect(() => {
+        if (analysisEntry?.analysisResult) {
+            setData(analysisEntry.analysisResult);
+            setLoading(false);
+            return;
+        }
+
         const fetchData = async () => {
             setLoading(true);
             const analysisId = params.get("id")!;

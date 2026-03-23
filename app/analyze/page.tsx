@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Upload, Briefcase, Sparkles, FileText, X, Loader2 } from "lucide-react"
 import { parseResume } from "@/utils/parser"
 import { useRouter } from "next/navigation"
+import { useAnalysisStore } from "@/store/useAnalysisStore";
 
 
 export default function Analyse() {
@@ -14,6 +15,8 @@ export default function Analyse() {
     const [file, setFile] = useState<File | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
+
+    const setAnalysisData = useAnalysisStore((state) => state.setAnalysisData);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null)
@@ -49,10 +52,15 @@ export default function Analyse() {
             const res = await fetch("/api/analyze", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ resumeText, jobDescription }),  // ~4KB payload
+                body: JSON.stringify({ resumeText, jobDescription }),
             });
 
-            const analysisId = await res.json();
+            const { analysisId, output } = await res.json();
+            setAnalysisData(analysisId, {
+                resumeText,
+                jobDescription,
+                analysisResult: output,
+            });
             router.push(`/result?id=${analysisId}`);
         } catch (error) {
             console.log(error);
