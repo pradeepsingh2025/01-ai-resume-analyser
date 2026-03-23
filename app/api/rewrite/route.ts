@@ -3,16 +3,13 @@ import { generateText, Output } from "ai";
 import { google } from "@ai-sdk/google";
 import { rewriteSchema } from "@/utils/rewriteSchema";
 import { auth } from "@clerk/nextjs/server";
+import prismaClient from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return new Response("Unauthorized", { status: 401 });
 
-  const { resumeText, jobDescription, missingKeywords } = await req.json();
-  console.log("missingKeywords", missingKeywords);
-
-  console.log("jobDes", jobDescription);
-  console.log("resume Text", resumeText);
+  const { resumeText, jobDescription, missingKeywords, analysisId } = await req.json();
 
   let missingKeywordsArray: string[] = [];
   if (typeof missingKeywords === "string" && missingKeywords.trim()) {
@@ -26,7 +23,6 @@ export async function POST(req: Request) {
   } else if (Array.isArray(missingKeywords)) {
     missingKeywordsArray = missingKeywords;
   }
-  console.log("missing keywords array",missingKeywordsArray)
 
   const { output } = await generateText({
     model: google("gemini-2.5-flash"),
@@ -91,6 +87,32 @@ Original Resume: ${resumeText}
     `,
   });
 
-  return Response.json(output);
+  const {id : rewriteId} = await prismaClient.rewrite.create({
+    data: {
+      userId,
+      analysisId,
+      name: output!.name,
+      summary: output!.summary,
+      achievements: output!.achievements,
+      changesExplained: output!.changesExplained,
+      ...(output!.contact && {
+        contact: { create: output!.contact },
+      }),
+      skills: {
+        create: output!.skills,
+      },
+      ...(output!.experience && {
+        experience: { create: output!.experience },
+      }),
+      education: {
+        create: output!.education,
+      },
+      projects: {
+        create: output!.projects,
+      },
+    },
+  });
+
+  return Response.json({output, rewriteId});
 
 }

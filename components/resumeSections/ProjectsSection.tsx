@@ -21,7 +21,7 @@ export default function ProjectsSection({ projects }: { projects: ProjectEntry[]
                 </Link>
               )}
             </View>
-            <Text style={s.projectType}>{proj.type}</Text>
+            <Text style={s.projectType}>{proj.date}</Text>
           </View>
 
           {/* ✅ Tech stack line — improves ATS keyword density */}

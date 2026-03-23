@@ -1,26 +1,26 @@
 import { StyleSheet } from "@react-pdf/renderer";
 
-
 export const styles = StyleSheet.create({
   page: {
     backgroundColor: "#ffffff",
-    paddingTop: 36,
-    paddingBottom: 36,
-    paddingHorizontal: 48,
-    fontFamily: "Times-Roman",
-    fontSize: 10.5,
-    color: "#000000",
-    lineHeight: 1.45,
+    paddingTop: 30,
+    paddingBottom: 30,
+    paddingHorizontal: 32,
+    fontFamily: "Helvetica",
+    fontSize: 10,
+    color: "#2d2d2d",
+    lineHeight: 1.4,
   },
 
-  // Name — title case, large, centered
+  // Name — clean, modern, centered
   name: {
-    fontSize: 20,
-    fontFamily: "Times-Bold",
+    fontSize: 22,
+    fontFamily: "Helvetica-Bold",
     textAlign: "center",
-    marginBottom: 10,
-    color: "#000000",
-    letterSpacing: 0.3,
+    marginBottom: 20,
+    color: "#1a1a1a",
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
   },
 
   // Contact — centered, pipe-separated
@@ -28,67 +28,72 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     flexWrap: "wrap",
-    marginBottom: 8,
+    marginBottom:3,
   },
   contactItem: {
-    fontSize: 10,
-    color: "#000000",
-    fontFamily: "Times-Roman",
+    fontSize: 9,
+    color: "#555555",
+    fontFamily: "Helvetica",
   },
   contactPipe: {
-    fontSize: 10,
-    color: "#000000",
-    marginHorizontal: 5,
+    fontSize: 9,
+    color: "#aaaaaa",
+    marginHorizontal: 6,
   },
 
-  // Section header — bold label + full rule beneath
+  // Section header — uppercase label + subtle thin rule
   sectionTitle: {
-    fontSize: 11.5,
-    fontFamily: "Times-Bold",
-    color: "#000000",
-    marginBottom: 2,
-    marginTop: 10,
-    textTransform: "uppercase",   // ✅ Standard resume convention
+    fontSize: 10.5,
+    fontFamily: "Helvetica-Bold",
+    color: "#1a1a1a",
+    marginBottom: 3,
+    marginTop: 14,
+    textTransform: "uppercase",
+    letterSpacing: 1.5,
   },
   sectionRule: {
-    borderBottomWidth: 0.8,
-    borderBottomColor: "#000000",
-    marginBottom: 5,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#cccccc",
+    marginBottom: 6,
   },
 
   // Summary
-  summaryText: {                  // ✅ New
-    fontSize: 10.5,
-    fontFamily: "Times-Roman",
-    lineHeight: 1.5,
+  summaryText: {
+    fontSize: 10,
+    fontFamily: "Helvetica",
+    lineHeight: 1.55,
     marginBottom: 2,
     textAlign: "left",
+    color: "#333333",
   },
 
-  // Experience — mirrors education layout
-  expHeaderRow: {                 // ✅ New
+  // Experience
+  expHeaderRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
     marginBottom: 1,
-    marginTop: 5,
+    marginTop: 6,
   },
-  expLeftCol: {                   // ✅ New
+  expLeftCol: {
     flex: 1,
   },
-  expCompany: {                   // ✅ New
-    fontFamily: "Times-Bold",
-    fontSize: 10.5,
+  expCompany: {
+    fontFamily: "Helvetica-Bold",
+    fontSize: 10,
+    color: "#1a1a1a",
   },
-  expTitle: {                     // ✅ New — title on its own line, italic
-    fontFamily: "Times-Italic",
-    fontSize: 10.5,
+  expTitle: {
+    fontFamily: "Helvetica-Oblique",
+    fontSize: 10,
+    color: "#444444",
   },
-  expDurationLocation: {          // ✅ New
-    fontSize: 10.5,
-    fontFamily: "Times-Roman",
+  expDurationLocation: {
+    fontSize: 9.5,
+    fontFamily: "Helvetica",
     textAlign: "right",
     marginLeft: 8,
+    color: "#666666",
   },
 
   // Education row
@@ -97,59 +102,66 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     marginBottom: 1,
-    marginTop: 5,
+    marginTop: 6,
   },
   eduLeftCol: {
     flex: 1,
   },
   eduInstitution: {
-    fontFamily: "Times-Bold",
-    fontSize: 10.5,
+    fontFamily: "Helvetica-Bold",
+    fontSize: 10,
+    color: "#1a1a1a",
   },
   eduDegree: {
-    fontFamily: "Times-Italic",
-    fontSize: 10.5,
+    fontFamily: "Helvetica-Oblique",
+    fontSize: 10,
+    color: "#444444",
   },
   eduDuration: {
-    fontSize: 10.5,
-    fontFamily: "Times-Roman",
+    fontSize: 9.5,
+    fontFamily: "Helvetica",
     textAlign: "right",
     marginLeft: 8,
+    color: "#666666",
   },
 
   // Bullet rows
   bulletRow: {
     flexDirection: "row",
     marginBottom: 2,
-    paddingLeft: 4,
+    paddingLeft: 6,
   },
   bulletDot: {
-    fontSize: 10.5,
+    fontSize: 10,
     marginRight: 6,
-    fontFamily: "Times-Roman",
-    lineHeight: 1.45,
+    fontFamily: "Helvetica",
+    lineHeight: 1.5,
+    color: "#888888",
   },
   bulletText: {
-    fontSize: 10.5,
-    fontFamily: "Times-Roman",
+    fontSize: 10,
+    fontFamily: "Helvetica",
     flex: 1,
-    lineHeight: 1.45,
+    lineHeight: 1.5,
+    color: "#333333",
   },
 
-  // Skill bullet — "• Category: items"
+  // Skill bullet — "Category: items"
   skillRow: {
     flexDirection: "row",
     marginBottom: 2,
-    paddingLeft: 4,
+    paddingLeft: 6,
   },
   skillLabel: {
-    fontFamily: "Times-Bold",
-    fontSize: 10.5,
+    fontFamily: "Helvetica-Bold",
+    fontSize: 10,
+    color: "#1a1a1a",
   },
   skillValue: {
-    fontFamily: "Times-Roman",
-    fontSize: 10.5,
+    fontFamily: "Helvetica",
+    fontSize: 10,
     flex: 1,
+    color: "#333333",
   },
 
   // Project header row
@@ -158,35 +170,37 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     marginBottom: 1,
-    marginTop: 5,
+    marginTop: 6,
   },
-  projectNameRow: {               // ✅ New — wraps name + optional link
+  projectNameRow: {
     flexDirection: "row",
     alignItems: "center",
     flex: 1,
     gap: 6,
   },
   projectName: {
-    fontFamily: "Times-Bold",
-    fontSize: 10.5,
+    fontFamily: "Helvetica-Bold",
+    fontSize: 10,
+    color: "#1a1a1a",
   },
-  projectLink: {                  // ✅ New
-    fontFamily: "Times-Roman",
-    fontSize: 9.5,
-    color: "#0000EE",
+  projectLink: {
+    fontFamily: "Helvetica",
+    fontSize: 9,
+    color: "#4a7fb5",
     textDecoration: "none",
   },
   projectType: {
-    fontFamily: "Times-Roman",
-    fontSize: 10.5,
+    fontFamily: "Helvetica",
+    fontSize: 9.5,
     textAlign: "right",
     marginLeft: 8,
+    color: "#666666",
   },
-  projectTechStack: {             // ✅ New
-    fontFamily: "Times-Italic",
-    fontSize: 10,
-    color: "#333333",
-    paddingLeft: 4,
+  projectTechStack: {
+    fontFamily: "Helvetica-Oblique",
+    fontSize: 9.5,
+    color: "#555555",
+    paddingLeft: 6,
     marginBottom: 2,
   },
 });

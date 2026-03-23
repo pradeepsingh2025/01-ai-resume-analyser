@@ -6,8 +6,8 @@ import { useSearchParams } from "next/navigation";
 import { AnalysisResult } from "@/utils/types";
 
 export default function Result() {
-    const params = useSearchParams(); 
-    const analysisId = params.get("id")  
+    const params = useSearchParams();
+    const analysisId = params.get("id")
     const [data, setData] = useState<AnalysisResult>({} as AnalysisResult);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -31,17 +31,17 @@ export default function Result() {
             setLoading(false);
         });
     }, [params]);
-    
+
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-24 pb-12 px-6 flex flex-col items-center">
-                <div className="w-full max-w-3xl flex flex-col gap-8 text-center">
-                    <h1 className="text-2xl text-red-500">Loading results...</h1>
+            <div className="min-h-screen bg-[#07090d] text-[#b48c50] pt-18 pb-12 px-6 flex items-center justify-center">
+                <div className="w-full flex items-center justify-center gap-8 text-center">
                     <Loader2 className="w-8 h-8 animate-spin" />
+                    <h1 className="text-2xl text-center">Loading results...</h1>
                 </div>
             </div>
         );
-    }   
+    }
 
     if (!data) {
         return (

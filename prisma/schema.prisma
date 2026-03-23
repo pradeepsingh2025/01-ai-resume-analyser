@@ -1,7 +1,9 @@
 // User → has many ResumeTexts
 // User → has many JobDescriptions
 // User → has many Analyses
+// User → has many Rewrites
 // Each Analysis belongs to one User, one JobDescription, and one ResumeText
+// Each Rewrite belongs to one User and one Analysis
 
 generator client {
   provider = "prisma-client"
@@ -21,6 +23,7 @@ model User {
   resumes         ResumeText[]
   jobDescriptions JobDescription[]
   analyses        Analysis[]
+  rewrites        Rewrite[]
 }
 
 model JobDescription {
@@ -63,4 +66,95 @@ model Analysis {
 
   resumeTextId     String
   resumeText       ResumeText     @relation(fields: [resumeTextId], references: [id], onDelete: Cascade)
+
+  rewrites         Rewrite[]
+}
+
+// ── Rewrite (top-level) ─────────────────────────────────────────────
+model Rewrite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Fields from rewriteSchema
+  name             String            // Full name
+  summary          String?           // 2-4 sentence professional summary
+  achievements     String[]          // Awards, rankings, recognitions
+  changesExplained String[]          // List of changes made and why
+
+  // Relations — parent
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  analysisId String
+  analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  // Relations — children
+  contact    RewriteContact?
+  skills     RewriteSkill[]
+  experience RewriteExperience[]
+  education  RewriteEducation[]
+  projects   RewriteProject[]
+}
+
+// ── Contact info ────────────────────────────────────────────────────
+model RewriteContact {
+  id        String  @id @default(cuid())
+  email     String?
+  phone     String?
+  linkedin  String?
+  github    String?
+  location  String?
+  website   String?
+
+  rewriteId String  @unique
+  rewrite   Rewrite @relation(fields: [rewriteId], references: [id], onDelete: Cascade)
+}
+
+// ── Skills ──────────────────────────────────────────────────────────
+model RewriteSkill {
+  id    String   @id @default(cuid())
+  label String             // e.g. "Languages", "Frameworks"
+  items String[]           // 5-10 items per category
+
+  rewriteId String
+  rewrite   Rewrite @relation(fields: [rewriteId], references: [id], onDelete: Cascade)
+}
+
+// ── Experience ──────────────────────────────────────────────────────
+model RewriteExperience {
+  id       String   @id @default(cuid())
+  company  String
+  location String?
+  title    String
+  duration String            // e.g. "Jan 2023 – Present"
+  bullets  String[]          // 2-6 action-driven bullet points
+
+  rewriteId String
+  rewrite   Rewrite @relation(fields: [rewriteId], references: [id], onDelete: Cascade)
+}
+
+// ── Education ───────────────────────────────────────────────────────
+model RewriteEducation {
+  id          String  @id @default(cuid())
+  institution String
+  degree      String
+  duration    String
+  gpa         String?
+  coursework  String?
+
+  rewriteId String
+  rewrite   Rewrite @relation(fields: [rewriteId], references: [id], onDelete: Cascade)
+}
+
+// ── Projects ────────────────────────────────────────────────────────
+model RewriteProject {
+  id        String   @id @default(cuid())
+  name      String
+  date      String?
+  techStack String[]          // Technologies used
+  bullets   String[]          // 2-5 action-driven bullet points
+  link      String?           // GitHub / live demo URL
+
+  rewriteId String
+  rewrite   Rewrite @relation(fields: [rewriteId], references: [id], onDelete: Cascade)
 }

@@ -122,7 +122,7 @@ export default function App() {
                     <button onClick={()=> window.location.href = "/analyze"} className="font-mono cursor-pointer text-[11px] tracking-widest uppercase bg-[#b48c50] text-[#07090d] px-6 py-3 hover:bg-[#c9a264] transition-colors">
                         Analyze my résumé →
                     </button>
-                    <span className="font-mono text-[11px] text-[#e4ddd3]/20">No signup required</span>
+                    <span className="font-mono text-[11px] text-[#e4ddd3]/20">and re-write afterward</span>
                 </div>
             </main>
 

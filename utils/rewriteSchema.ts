@@ -14,13 +14,8 @@ export const rewriteSchema = z.object({
             phone: z.string().optional(),
             linkedin: z.string().optional(),
             github: z.string().optional(),
-            location: z.string().optional(), // City + State/Country only, no street address
             website: z.string().optional(),
-            portfolio: z.string().optional(),
-            leetcode: z.string().optional(),
-            hackerrank: z.string().optional(),
-            codechef: z.string().optional(),
-            codeforces: z.string().optional(),
+            location: z.string().optional(),
         })
         .optional()
         .describe("Keep all values exactly as in original — do not modify links"),
@@ -68,7 +63,7 @@ export const rewriteSchema = z.object({
             institution: z.string(),
             degree: z.string(),
             duration: z.string(),
-            gpa: z.string().optional().describe("Include only if 3.5+ and early-career"),
+            gpa: z.string().optional().describe("Include only if 6.5+ and early-career"),
             coursework: z.string().optional().describe("Only if directly relevant to the role"),
         })
     ),
@@ -77,7 +72,7 @@ export const rewriteSchema = z.object({
         .array(
             z.object({
                 name: z.string(),
-                type: z.string().describe('"Personal Project" | "Client Project" | "Open Source"'),
+                date: z.string().optional().describe("The time when project was built"),
                 techStack: z
                     .array(z.string())
                     .describe("Technologies, languages, frameworks used — improves ATS keyword match"),

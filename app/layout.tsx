@@ -4,6 +4,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
+import UserMenu from "@/components/UserMenu";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -34,7 +36,7 @@ export default function RootLayout({
             <div className="flex items-center gap-2">
               <span className="text-[#b48c50] text-lg leading-none">◈</span>
               <span className="font-mono text-xs tracking-[0.18em] uppercase text-[#e4ddd3]/70">
-                Resumter
+                <Link href="/">Resumter</Link>
               </span>
             </div>
 
@@ -53,7 +55,7 @@ export default function RootLayout({
                 </SignUpButton>
               </Show>
               <Show when="signed-in">
-                <UserButton />
+                <UserMenu />
               </Show>
             </div>
           </header>
