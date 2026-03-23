@@ -127,7 +127,7 @@ export default function App() {
             </main>
 
             {/* ── FOOTER ── */}
-            <footer className={`relative z-10 px-8 py-3 border-t border-white/[0.06] flex items-center justify-between transition-all duration-500 delay-500 ${visible ? "opacity-100" : "opacity-0"}`}>
+            <footer className={`relative z-10 px-8 py-3 border-t border-white/6 flex items-center justify-between transition-all duration-500 delay-500 ${visible ? "opacity-100" : "opacity-0"}`}>
                 <span className="font-mono text-[10px] text-[#e4ddd3]/20 tracking-widest uppercase">© 2026 Resumter</span>
                 <span className="font-mono text-[10px] text-[#e4ddd3]/20 tracking-widest uppercase">Privacy · Terms</span>
             </footer>

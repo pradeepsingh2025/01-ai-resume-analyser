@@ -100,7 +100,7 @@ export default function RewritePreview() {
               <ol className="space-y-3 list-none">
                 {rewrite.changesExplained.map((change, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-7 h-7 rounded-full bg-[#b48c50]/15 text-[#b48c50] font-mono text-sm flex items-center justify-center mt-0.5">
+                    <span className="shrink-0 w-7 h-7 rounded-full bg-[#b48c50]/15 text-[#b48c50] font-mono text-sm flex items-center justify-center mt-0.5">
                       {index + 1}
                     </span>
                     <p className="text-sm leading-relaxed text-[#e4ddd3]/80 font-sans">

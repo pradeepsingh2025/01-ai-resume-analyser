@@ -254,9 +254,9 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Score bar */}
-                  <div className="w-full h-[3px] bg-white/[0.06] rounded-full overflow-hidden mb-4">
+                  <div className="w-full h-[3px] bg-white/6 rounded-full overflow-hidden mb-4">
                     <div
-                      className={`h-full rounded-full bg-gradient-to-r ${getScoreBarColor(analysis.atsScore)}`}
+                      className={`h-full rounded-full bg-linear-to-r ${getScoreBarColor(analysis.atsScore)}`}
                       style={{ width: `${analysis.atsScore}%` }}
                     />
                   </div>
@@ -307,7 +307,7 @@ export default function DashboardPage() {
 
         {/* Footer CTA */}
         {!loading && !error && totalAnalyses > 0 && (
-          <div className="mt-10 pt-6 border-t border-white/[0.06] flex items-center justify-between">
+          <div className="mt-10 pt-6 border-t border-white/6 flex items-center justify-between">
             <span className="font-mono text-[10px] text-[#e4ddd3]/15 tracking-widest uppercase">
               {totalAnalyses} {totalAnalyses === 1 ? "analysis" : "analyses"} total
             </span>

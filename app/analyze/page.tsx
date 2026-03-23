@@ -123,7 +123,7 @@ export default function Analyse() {
                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                 />
 
-                                <div className={`border-2 border-dashed transition-colors rounded-xl p-8 flex flex-col items-center justify-center gap-4 text-center ${file ? 'border-[#b48c50]/50 bg-[#b48c50]/[0.02]' : 'border-white/[0.1] group-hover:border-[#b48c50]/50 group-hover:bg-[#b48c50]/[0.02]'}`}>
+                                <div className={`border-2 border-dashed transition-colors rounded-xl p-8 flex flex-col items-center justify-center gap-4 text-center ${file ? 'border-[#b48c50]/50 bg-[#b48c50]/3' : 'border-white/10 group-hover:border-[#b48c50]/50 group-hover:bg-[#b48c50]/3'}`}>
                                     {file ? (
                                         <>
                                             <div className="p-3 bg-white/3 rounded-full text-[#b48c50]">
@@ -139,7 +139,7 @@ export default function Analyse() {
                                             </div>
                                             <button
                                                 onClick={clearFile}
-                                                className="absolute top-4 right-4 p-2 text-[#e4ddd3]/50 hover:text-[#e4ddd3] hover:bg-white/[0.05] rounded-lg transition-colors z-20"
+                                                className="absolute top-4 right-4 p-2 text-[#e4ddd3]/50 hover:text-[#e4ddd3] hover:bg-white/5 rounded-lg transition-colors z-20"
                                                 title="Remove file"
                                             >
                                                 <X className="w-4 h-4" />
@@ -147,7 +147,7 @@ export default function Analyse() {
                                         </>
                                     ) : (
                                         <>
-                                            <div className="p-3 bg-white/[0.03] rounded-full group-hover:bg-[#b48c50]/10 transition-colors">
+                                            <div className="p-3 bg-white/3 rounded-full group-hover:bg-[#b48c50]/10 transition-colors">
                                                 <Upload className="w-6 h-6 text-[#e4ddd3]/50 group-hover:text-[#b48c50] transition-colors" />
                                             </div>
                                             <div>
