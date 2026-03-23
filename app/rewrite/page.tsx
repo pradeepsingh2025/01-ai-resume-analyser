@@ -74,14 +74,14 @@ export default function Rewrite() {
     }
 
     return (
-        <div className="min-h-screen bg-background text-foreground pt-18 pb-12 px-4 sm:px-6 lg:px-10 flex flex-col">
+        <div className="max-w-[1390px] mx-auto min-h-screen bg-background text-foreground pt-18 pb-12 px-4 sm:px-6 lg:px-10 flex flex-col">
             {/* Header */}
             <div className="flex flex-col items-start gap-1 mb-6">
                 <h1 className="text-3xl font-mono text-primary tracking-wider uppercase">
-                    Rewrite Resume
+                    {rewrittenResume ? "Rewritten Resume" : "Rewrite Resume"}
                 </h1>
                 <p className="text-foreground/60 font-sans max-w-xl">
-                    Rewrite your resume to better match the job description.
+                    {rewrittenResume ? "Here is your rewritten resume with changes explained" : "Rewrite your resume to better match the job description."}
                 </p>
             </div>
 

@@ -105,7 +105,7 @@ export default function App() {
                     {features.map((f) => (
                         <div
                             key={f.id}
-                            className="bg-background hover:bg-card transition-colors duration-200 p-6 flex flex-col gap-3 group cursor-default"
+                            className="bg-background border border-border dark:border-white/[0.07] hover:bg-card transition-colors duration-200 p-6 flex flex-col gap-3 group cursor-default"
                         >
                             <div className="flex justify-between items-start">
                                 <span className="font-mono text-[10px] tracking-[0.15em] text-foreground/20">{f.id}</span>

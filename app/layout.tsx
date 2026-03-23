@@ -7,6 +7,8 @@ import { Show, SignInButton, SignUpButton } from "@clerk/nextjs";
 import Link from "next/link";
 import UserMenu from "@/components/UserMenu";
 import Image from "next/image";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -27,11 +29,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans dark", inter.variable)}>
+    <html lang="en" className={cn("font-sans", inter.variable)} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark')
+                } else {
+                  document.documentElement.classList.remove('dark')
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${courierPrime.className} antialiased`}
       >
-        <ClerkProvider>
+        <ThemeProvider>
+          <ClerkProvider>
           <div className="fixed top-0 right-0 left-0 z-30 border-b border-border">
             <header className="max-w-[1340px] mx-auto flex items-center justify-between px-8 py-4 h-14 bg-background">
               {/* Logo */}
@@ -44,6 +62,7 @@ export default function RootLayout({
 
               {/* Auth */}
               <div className="flex items-center gap-3">
+                <ThemeToggle />
                 <Show when="signed-out">
                   <SignInButton>
                     <button className="font-mono text-[11px] tracking-widest uppercase text-foreground/50 hover:text-foreground/90 transition-colors px-3 py-1.5 cursor-pointer">
@@ -64,6 +83,7 @@ export default function RootLayout({
           </div>
           {children}
         </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

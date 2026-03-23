@@ -91,7 +91,7 @@ export default function Analyse() {
                 </div>
 
                 {/* Main Form Area */}
-                <div className="grid grid-cols-1 gap-8 bg-white/2 shadow-slate-800 border border-white/20 rounded-xl p-6 sm:p-8 shadow-lg">
+                <div className="grid grid-cols-1 gap-8 bg-card border border-border rounded-xl p-6 sm:p-8 shadow-sm dark:shadow-lg dark:shadow-slate-800/50">
 
                     {/* Prompt Input */}
                     <div className="space-y-4">
@@ -105,7 +105,7 @@ export default function Analyse() {
                             onChange={handleJobDesChange}
                             value={jobDescription}
                             placeholder="Paste a job description here..."
-                            className="min-h-40 max-h-96 overflow-y-auto no-scrollbar bg-background/50 border-white/10 text-foreground placeholder:text-foreground/30 focus-visible:ring-primary focus-visible:border-primary/50 rounded-xl resize-none font-sans"
+                            className="min-h-40 max-h-96 overflow-y-auto no-scrollbar bg-background border-border text-foreground placeholder:text-foreground/50 focus-visible:ring-primary focus-visible:border-primary/50 rounded-xl resize-none font-sans"
                         />
                     </div>
 
@@ -123,10 +123,10 @@ export default function Analyse() {
                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                 />
 
-                                <div className={`border-2 border-dashed transition-colors rounded-xl p-8 flex flex-col items-center justify-center gap-4 text-center ${file ? 'border-primary/50 bg-primary/5' : 'border-white/10 group-hover:border-primary/50 group-hover:bg-primary/5'}`}>
+                                <div className={`border-2 border-dashed transition-colors rounded-xl p-8 flex flex-col items-center justify-center gap-4 text-center ${file ? 'border-primary/50 bg-primary/5' : 'border-border group-hover:border-primary/50 group-hover:bg-primary/5'}`}>
                                     {file ? (
                                         <>
-                                            <div className="p-3 bg-white/3 rounded-full text-primary">
+                                            <div className="p-3 bg-primary/10 rounded-full text-primary">
                                                 <FileText className="w-6 h-6" />
                                             </div>
                                             <div >
@@ -139,7 +139,7 @@ export default function Analyse() {
                                             </div>
                                             <button
                                                 onClick={clearFile}
-                                                className="absolute top-4 right-4 p-2 text-foreground/50 hover:text-foreground hover:bg-white/5 rounded-lg transition-colors z-20"
+                                                className="absolute top-4 right-4 p-2 text-foreground/50 hover:text-foreground hover:bg-foreground/5 rounded-lg transition-colors z-20"
                                                 title="Remove file"
                                             >
                                                 <X className="w-4 h-4" />
@@ -147,7 +147,7 @@ export default function Analyse() {
                                         </>
                                     ) : (
                                         <>
-                                            <div className="p-3 bg-white/3 rounded-full group-hover:bg-primary/10 transition-colors">
+                                            <div className="p-3 bg-foreground/5 dark:bg-white/5 rounded-full group-hover:bg-primary/10 transition-colors">
                                                 <Upload className="w-6 h-6 text-foreground/50 group-hover:text-primary transition-colors" />
                                             </div>
                                             <div>
@@ -176,8 +176,8 @@ export default function Analyse() {
                 <div className="flex justify-end pt-2">
                     <button
                         onClick={() => handleAnalyze(file!, jobDescription)}
-                        className="font-mono text-sm tracking-widest uppercase bg-primary text-primary-foreground px-8 py-3.5 rounded-lg hover:bg-primary-hover transition-all transform hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(180,140,80,0.39)] hover:shadow-[0_6px_20px_rgba(180,140,80,0.23)] flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
-                        disabled={!file || jobDescription.length === 0}
+                        disabled={!file || jobDescription.length === 0 || loading}
+                        className="font-mono text-sm tracking-widest uppercase bg-primary text-primary-foreground px-8 py-3.5 rounded-lg hover:bg-primary-hover transition-all transform hover:-translate-y-0.5 shadow-[0_4px_10px_0_rgba(180,140,80,0.2)] dark:shadow-[0_4px_14px_0_rgba(180,140,80,0.39)] hover:shadow-[0_6px_16px_rgba(180,140,80,0.15)] dark:hover:shadow-[0_6px_20px_rgba(180,140,80,0.23)] flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                     >
                         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                         {loading ? "Analyzing..." : "Analyze Now"}

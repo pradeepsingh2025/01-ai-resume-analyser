@@ -148,7 +148,7 @@ export default function DashboardPage() {
               { label: "Best Score", value: bestScore, icon: TrendingUp },
               { label: "Rewrites", value: totalRewrites, icon: RefreshCw },
             ].map((stat) => (
-              <div key={stat.label} className="bg-background p-5 flex flex-col gap-2 group">
+              <div key={stat.label} className="bg-background p-5 flex flex-col gap-2 group  border border-border dark:border-white/[0.07]">
                 <div className="flex justify-between items-start">
                   <span className="font-mono text-[10px] tracking-[0.15em] text-foreground/20 uppercase">
                     {stat.label}
@@ -188,7 +188,7 @@ export default function DashboardPage() {
         {/* Empty state */}
         {!loading && !error && totalAnalyses === 0 && (
           <div className="flex flex-col items-center justify-center py-32 gap-5 text-center">
-            <div className="w-16 h-16 rounded-full border border-white/[0.07] flex items-center justify-center">
+            <div className="w-16 h-16 rounded-full border border-border dark:border-white/[0.07] flex items-center justify-center">
               <FileText size={24} className="text-primary/40" />
             </div>
             <div>
@@ -212,7 +212,7 @@ export default function DashboardPage() {
             {analyses.map((analysis) => (
               <div
                 key={analysis.id}
-                className="group border border-white/[0.07] hover:border-primary/20 bg-background hover:bg-card transition-all duration-200 cursor-pointer"
+                className="group border border-border dark:border-white/[0.07] hover:border-primary/20 bg-background hover:bg-card transition-all duration-200 cursor-pointer shadow-none hover:shadow-sm"
                 onClick={() => router.push(`/result?id=${analysis.id}`)}
               >
                 <div className="p-5 sm:p-6">
@@ -307,7 +307,7 @@ export default function DashboardPage() {
 
         {/* Footer CTA */}
         {!loading && !error && totalAnalyses > 0 && (
-          <div className="mt-10 pt-6 border-t border-white/6 flex items-center justify-between">
+          <div className="mt-10 pt-6 border-t border-border dark:border-white/6 flex items-center justify-between">
             <span className="font-mono text-[10px] text-foreground/15 tracking-widest uppercase">
               {totalAnalyses} {totalAnalyses === 1 ? "analysis" : "analyses"} total
             </span>
