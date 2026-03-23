@@ -76,16 +76,16 @@ export default function Analyse() {
     };
 
     return (
-        <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-24 pb-12 px-6 flex flex-col items-center">
+        <div className="min-h-screen bg-background text-foreground pt-24 pb-12 px-6 flex flex-col items-center">
 
             <div className="w-full max-w-3xl flex flex-col gap-8">
 
                 {/* Header Section */}
                 <div className="space-y-2 mb-4">
-                    <h1 className="text-3xl font-mono text-[#b48c50] tracking-wider uppercase">
+                    <h1 className="text-3xl font-mono text-primary tracking-wider uppercase">
                         Analyze Resume
                     </h1>
-                    <p className="text-[#e4ddd3]/60 font-sans max-w-xl leading-relaxed">
+                    <p className="text-foreground/60 font-sans max-w-xl leading-relaxed">
                         Upload your resume and provide specific instructions or a job description for our AI to evaluate your profile against.
                     </p>
                 </div>
@@ -96,8 +96,8 @@ export default function Analyse() {
                     {/* Prompt Input */}
                     <div className="space-y-4">
                         <div className="flex items-center gap-2">
-                            <Briefcase className="w-4 h-4 text-[#b48c50]" />
-                            <label className="font-mono text-sm tracking-widest uppercase text-[#e4ddd3]/80">
+                            <Briefcase className="w-4 h-4 text-primary" />
+                            <label className="font-mono text-sm tracking-widest uppercase text-foreground/80">
                                 Job Details & Instructions
                             </label>
                         </div>
@@ -105,7 +105,7 @@ export default function Analyse() {
                             onChange={handleJobDesChange}
                             value={jobDescription}
                             placeholder="Paste a job description here..."
-                            className="min-h-40 max-h-96 overflow-y-auto no-scrollbar bg-[#07090d]/50 border-white/10 text-[#e4ddd3] placeholder:text-[#e4ddd3]/30 focus-visible:ring-[#b48c50] focus-visible:border-[#b48c50]/50 rounded-xl resize-none font-sans"
+                            className="min-h-40 max-h-96 overflow-y-auto no-scrollbar bg-background/50 border-white/10 text-foreground placeholder:text-foreground/30 focus-visible:ring-primary focus-visible:border-primary/50 rounded-xl resize-none font-sans"
                         />
                     </div>
 
@@ -123,23 +123,23 @@ export default function Analyse() {
                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                 />
 
-                                <div className={`border-2 border-dashed transition-colors rounded-xl p-8 flex flex-col items-center justify-center gap-4 text-center ${file ? 'border-[#b48c50]/50 bg-[#b48c50]/3' : 'border-white/10 group-hover:border-[#b48c50]/50 group-hover:bg-[#b48c50]/3'}`}>
+                                <div className={`border-2 border-dashed transition-colors rounded-xl p-8 flex flex-col items-center justify-center gap-4 text-center ${file ? 'border-primary/50 bg-primary/5' : 'border-white/10 group-hover:border-primary/50 group-hover:bg-primary/5'}`}>
                                     {file ? (
                                         <>
-                                            <div className="p-3 bg-white/3 rounded-full text-[#b48c50]">
+                                            <div className="p-3 bg-white/3 rounded-full text-primary">
                                                 <FileText className="w-6 h-6" />
                                             </div>
                                             <div >
-                                                <p className="font-mono text-sm tracking-wider uppercase text-[#e4ddd3]/90 mb-1">
+                                                <p className="font-mono text-sm tracking-wider uppercase text-foreground/90 mb-1">
                                                     {file.name}
                                                 </p>
-                                                <FieldDescription className="text-[#e4ddd3]/50 font-sans text-sm text-center">
+                                                <FieldDescription className="text-foreground/50 font-sans text-sm text-center">
                                                     {(file.size / 1024 / 1024).toFixed(2)} MB
                                                 </FieldDescription>
                                             </div>
                                             <button
                                                 onClick={clearFile}
-                                                className="absolute top-4 right-4 p-2 text-[#e4ddd3]/50 hover:text-[#e4ddd3] hover:bg-white/5 rounded-lg transition-colors z-20"
+                                                className="absolute top-4 right-4 p-2 text-foreground/50 hover:text-foreground hover:bg-white/5 rounded-lg transition-colors z-20"
                                                 title="Remove file"
                                             >
                                                 <X className="w-4 h-4" />
@@ -147,14 +147,14 @@ export default function Analyse() {
                                         </>
                                     ) : (
                                         <>
-                                            <div className="p-3 bg-white/3 rounded-full group-hover:bg-[#b48c50]/10 transition-colors">
-                                                <Upload className="w-6 h-6 text-[#e4ddd3]/50 group-hover:text-[#b48c50] transition-colors" />
+                                            <div className="p-3 bg-white/3 rounded-full group-hover:bg-primary/10 transition-colors">
+                                                <Upload className="w-6 h-6 text-foreground/50 group-hover:text-primary transition-colors" />
                                             </div>
                                             <div>
-                                                <p className="font-mono text-sm tracking-wider uppercase text-[#e4ddd3]/90 mb-1">
+                                                <p className="font-mono text-sm tracking-wider uppercase text-foreground/90 mb-1">
                                                     Upload Resume
                                                 </p>
-                                                <FieldDescription className="text-[#e4ddd3]/50 font-sans text-sm">
+                                                <FieldDescription className="text-foreground/50 font-sans text-sm">
                                                     Drag and drop or click to browse (PDF, DOCX) - Max 2MB
                                                 </FieldDescription>
                                             </div>
@@ -176,7 +176,7 @@ export default function Analyse() {
                 <div className="flex justify-end pt-2">
                     <button
                         onClick={() => handleAnalyze(file!, jobDescription)}
-                        className="font-mono text-sm tracking-widest uppercase bg-[#b48c50] text-[#07090d] px-8 py-3.5 rounded-lg hover:bg-[#c9a264] transition-all transform hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(180,140,80,0.39)] hover:shadow-[0_6px_20px_rgba(180,140,80,0.23)] flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                        className="font-mono text-sm tracking-widest uppercase bg-primary text-primary-foreground px-8 py-3.5 rounded-lg hover:bg-primary-hover transition-all transform hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(180,140,80,0.39)] hover:shadow-[0_6px_20px_rgba(180,140,80,0.23)] flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                         disabled={!file || jobDescription.length === 0}
                     >
                         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}

@@ -100,13 +100,13 @@ export default function DashboardPage() {
   const totalRewrites = analyses.reduce((sum, a) => sum + a.rewrites.length, 0);
 
   return (
-    <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       {/* Subtle grid overlay */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage:
-            "linear-gradient(#e4ddd3 1px,transparent 1px),linear-gradient(90deg,#e4ddd3 1px,transparent 1px)",
+            "linear-gradient(var(--foreground) 1px,transparent 1px),linear-gradient(90deg,var(--foreground) 1px,transparent 1px)",
           backgroundSize: "56px 56px",
         }}
       />
@@ -120,19 +120,19 @@ export default function DashboardPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#b48c50] border border-[#b48c50]/30 px-3 py-1 inline-block mb-4">
+            <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-primary border border-primary/30 px-3 py-1 inline-block mb-4">
               Dashboard
             </span>
             <h1 className="text-3xl md:text-4xl font-normal tracking-tight">
-              Analysis <em className="text-[#b48c50] italic">History</em>
+              Analysis <em className="text-primary italic">History</em>
             </h1>
-            <p className="font-mono text-xs text-[#e4ddd3]/35 mt-2 max-w-md">
+            <p className="font-mono text-xs text-foreground/35 mt-2 max-w-md">
               Track every résumé analysis, monitor your ATS scores, and revisit past rewrites.
             </p>
           </div>
           <button
             onClick={fetchAnalyses}
-            className="font-mono text-[11px] tracking-widest uppercase text-[#e4ddd3]/40 hover:text-[#e4ddd3]/80 transition-colors flex items-center gap-2 shrink-0 cursor-pointer"
+            className="font-mono text-[11px] tracking-widest uppercase text-foreground/40 hover:text-foreground/80 transition-colors flex items-center gap-2 shrink-0 cursor-pointer"
           >
             <RefreshCw size={12} />
             Refresh
@@ -148,14 +148,14 @@ export default function DashboardPage() {
               { label: "Best Score", value: bestScore, icon: TrendingUp },
               { label: "Rewrites", value: totalRewrites, icon: RefreshCw },
             ].map((stat) => (
-              <div key={stat.label} className="bg-[#07090d] p-5 flex flex-col gap-2 group">
+              <div key={stat.label} className="bg-background p-5 flex flex-col gap-2 group">
                 <div className="flex justify-between items-start">
-                  <span className="font-mono text-[10px] tracking-[0.15em] text-[#e4ddd3]/20 uppercase">
+                  <span className="font-mono text-[10px] tracking-[0.15em] text-foreground/20 uppercase">
                     {stat.label}
                   </span>
-                  <stat.icon size={14} className="text-[#b48c50]/40 group-hover:text-[#b48c50] transition-colors" />
+                  <stat.icon size={14} className="text-primary/40 group-hover:text-primary transition-colors" />
                 </div>
-                <span className="text-2xl font-light text-[#e4ddd3]/90">{stat.value}</span>
+                <span className="text-2xl font-light text-foreground/90">{stat.value}</span>
               </div>
             ))}
           </div>
@@ -164,8 +164,8 @@ export default function DashboardPage() {
         {/* Loading */}
         {loading && (
           <div className="flex flex-col items-center justify-center py-32 gap-4">
-            <Loader2 size={28} className="animate-spin text-[#b48c50]/60" />
-            <span className="font-mono text-xs text-[#e4ddd3]/30 tracking-widest uppercase">
+            <Loader2 size={28} className="animate-spin text-primary/60" />
+            <span className="font-mono text-xs text-foreground/30 tracking-widest uppercase">
               Loading history…
             </span>
           </div>
@@ -178,7 +178,7 @@ export default function DashboardPage() {
             <span className="font-mono text-xs text-red-400/60 tracking-wide">{error}</span>
             <button
               onClick={fetchAnalyses}
-              className="font-mono text-[11px] tracking-widest uppercase bg-[#b48c50] text-[#07090d] px-4 py-2 hover:bg-[#c9a264] transition-colors cursor-pointer"
+              className="font-mono text-[11px] tracking-widest uppercase bg-primary text-primary-foreground px-4 py-2 hover:bg-primary-hover transition-colors cursor-pointer"
             >
               Retry
             </button>
@@ -189,17 +189,17 @@ export default function DashboardPage() {
         {!loading && !error && totalAnalyses === 0 && (
           <div className="flex flex-col items-center justify-center py-32 gap-5 text-center">
             <div className="w-16 h-16 rounded-full border border-white/[0.07] flex items-center justify-center">
-              <FileText size={24} className="text-[#b48c50]/40" />
+              <FileText size={24} className="text-primary/40" />
             </div>
             <div>
-              <h2 className="text-lg font-normal text-[#e4ddd3]/70 mb-1">No analyses yet</h2>
-              <p className="font-mono text-[11px] text-[#e4ddd3]/25 max-w-xs">
+              <h2 className="text-lg font-normal text-foreground/70 mb-1">No analyses yet</h2>
+              <p className="font-mono text-[11px] text-foreground/25 max-w-xs">
                 Analyze your first résumé to see your history here.
               </p>
             </div>
             <button
               onClick={() => router.push("/analyze")}
-              className="font-mono text-[11px] tracking-widest uppercase bg-[#b48c50] text-[#07090d] px-6 py-3 hover:bg-[#c9a264] transition-colors cursor-pointer"
+              className="font-mono text-[11px] tracking-widest uppercase bg-primary text-primary-foreground px-6 py-3 hover:bg-primary-hover transition-colors cursor-pointer"
             >
               Analyze my résumé →
             </button>
@@ -212,7 +212,7 @@ export default function DashboardPage() {
             {analyses.map((analysis) => (
               <div
                 key={analysis.id}
-                className="group border border-white/[0.07] hover:border-[#b48c50]/20 bg-[#07090d] hover:bg-[#0d1118] transition-all duration-200 cursor-pointer"
+                className="group border border-white/[0.07] hover:border-primary/20 bg-background hover:bg-card transition-all duration-200 cursor-pointer"
                 onClick={() => router.push(`/result?id=${analysis.id}`)}
               >
                 <div className="p-5 sm:p-6">
@@ -230,11 +230,11 @@ export default function DashboardPage() {
                         </span>
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="text-sm text-[#e4ddd3]/80">
+                        <span className="text-sm text-foreground/80">
                           {truncate(analysis.jobDescription.content, 80)}
                         </span>
                         <div className="flex items-center gap-3 mt-1">
-                          <span className="font-mono text-[10px] text-[#e4ddd3]/25 flex items-center gap-1">
+                          <span className="font-mono text-[10px] text-foreground/25 flex items-center gap-1">
                             <Clock size={10} />
                             {formatDate(analysis.createdAt)}
                           </span>
@@ -249,7 +249,7 @@ export default function DashboardPage() {
                     </div>
                     <ArrowRight
                       size={16}
-                      className="text-[#e4ddd3]/10 group-hover:text-[#b48c50]/60 transition-colors shrink-0 mt-1"
+                      className="text-foreground/10 group-hover:text-primary/60 transition-colors shrink-0 mt-1"
                     />
                   </div>
 
@@ -262,7 +262,7 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Feedback preview */}
-                  <p className="font-mono text-[11px] leading-relaxed text-[#e4ddd3]/30 mb-3">
+                  <p className="font-mono text-[11px] leading-relaxed text-foreground/30 mb-3">
                     {truncate(analysis.overallFeedback, 160)}
                   </p>
 
@@ -271,17 +271,17 @@ export default function DashboardPage() {
                     {analysis.missingKeywords.slice(0, 4).map((kw, i) => (
                       <span
                         key={i}
-                        className="font-mono text-[9px] tracking-wider uppercase text-[#b48c50]/50 border border-[#b48c50]/15 px-2 py-0.5"
+                        className="font-mono text-[9px] tracking-wider uppercase text-primary/50 border border-primary/15 px-2 py-0.5"
                       >
                         {kw}
                       </span>
                     ))}
                     {analysis.missingKeywords.length > 4 && (
-                      <span className="font-mono text-[9px] text-[#e4ddd3]/20">
+                      <span className="font-mono text-[9px] text-foreground/20">
                         +{analysis.missingKeywords.length - 4} more
                       </span>
                     )}
-                    <span className="ml-auto font-mono text-[9px] text-[#e4ddd3]/15">
+                    <span className="ml-auto font-mono text-[9px] text-foreground/15">
                       {analysis.strengths.length}↑ {analysis.weaknesses.length}↓
                     </span>
                   </div>
@@ -293,7 +293,7 @@ export default function DashboardPage() {
                         e.stopPropagation();
                         router.push(`/dashboard/rewrites?id=${analysis.rewrites[0].id}`);
                       }}
-                      className="mt-4 font-mono text-[11px] tracking-widest uppercase border border-[#b48c50]/30 text-[#b48c50] px-4 py-2 hover:bg-[#b48c50]/10 transition-colors flex items-center gap-2 cursor-pointer w-fit"
+                      className="mt-4 font-mono text-[11px] tracking-widest uppercase border border-primary/30 text-primary px-4 py-2 hover:bg-primary/10 transition-colors flex items-center gap-2 cursor-pointer w-fit"
                     >
                       <Eye size={12} />
                       View Rewrite
@@ -308,12 +308,12 @@ export default function DashboardPage() {
         {/* Footer CTA */}
         {!loading && !error && totalAnalyses > 0 && (
           <div className="mt-10 pt-6 border-t border-white/6 flex items-center justify-between">
-            <span className="font-mono text-[10px] text-[#e4ddd3]/15 tracking-widest uppercase">
+            <span className="font-mono text-[10px] text-foreground/15 tracking-widest uppercase">
               {totalAnalyses} {totalAnalyses === 1 ? "analysis" : "analyses"} total
             </span>
             <button
               onClick={() => router.push("/analyze")}
-              className="font-mono text-[11px] tracking-widest uppercase text-[#b48c50] hover:text-[#c9a264] transition-colors flex items-center gap-2 cursor-pointer"
+              className="font-mono text-[11px] tracking-widest uppercase text-primary hover:text-primary-hover transition-colors flex items-center gap-2 cursor-pointer"
             >
               New analysis
               <ArrowRight size={12} />

@@ -42,7 +42,7 @@ export default function RewritePreview() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#07090d] text-[#b48c50] pt-18 pb-12 px-6 flex items-center justify-center">
+      <div className="min-h-screen bg-background text-primary pt-18 pb-12 px-6 flex items-center justify-center">
         <div className="flex items-center gap-4">
           <Loader2 className="w-8 h-8 animate-spin" />
           <span className="text-lg font-mono tracking-wide">Loading rewrite…</span>
@@ -53,11 +53,11 @@ export default function RewritePreview() {
 
   if (error || !rewrite) {
     return (
-      <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-18 pb-12 px-6 flex flex-col items-center justify-center gap-4">
+      <div className="min-h-screen bg-background text-foreground pt-18 pb-12 px-6 flex flex-col items-center justify-center gap-4">
         <span className="font-mono text-sm text-red-400/60">{error || "Rewrite not found."}</span>
         <button
           onClick={() => router.push("/dashboard")}
-          className="font-mono text-[11px] tracking-widest uppercase text-[#b48c50] hover:text-[#c9a264] transition-colors flex items-center gap-2 cursor-pointer"
+          className="font-mono text-[11px] tracking-widest uppercase text-primary hover:text-primary-hover transition-colors flex items-center gap-2 cursor-pointer"
         >
           <ArrowLeft size={12} />
           Back to dashboard
@@ -67,21 +67,21 @@ export default function RewritePreview() {
   }
 
   return (
-    <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-18 pb-12 px-4 sm:px-6 lg:px-10 flex flex-col">
+    <div className="min-h-screen bg-background text-foreground pt-18 pb-12 px-4 sm:px-6 lg:px-10 flex flex-col">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
         <div>
           <button
             onClick={() => router.push("/dashboard")}
-            className="font-mono text-[11px] tracking-widest uppercase text-[#e4ddd3]/30 hover:text-[#e4ddd3]/70 transition-colors flex items-center gap-2 cursor-pointer mb-3"
+            className="font-mono text-[11px] tracking-widest uppercase text-foreground/30 hover:text-foreground/70 transition-colors flex items-center gap-2 cursor-pointer mb-3"
           >
             <ArrowLeft size={12} />
             Dashboard
           </button>
-          <h1 className="text-3xl font-mono text-[#b48c50] tracking-wider uppercase">
+          <h1 className="text-3xl font-mono text-primary tracking-wider uppercase">
             Rewritten Resume
           </h1>
-          <p className="text-[#e4ddd3]/60 font-sans max-w-xl mt-1">
+          <p className="text-foreground/60 font-sans max-w-xl mt-1">
             Preview and download your AI-rewritten resume.
           </p>
         </div>
@@ -94,16 +94,16 @@ export default function RewritePreview() {
           {/* Changes explained */}
           {rewrite.changesExplained && rewrite.changesExplained.length > 0 && (
             <div className="w-full mt-2 space-y-4">
-              <h2 className="text-xl font-mono text-[#b48c50] tracking-wider uppercase border-b border-[#b48c50]/20 pb-2">
+              <h2 className="text-xl font-mono text-primary tracking-wider uppercase border-b border-primary/20 pb-2">
                 Changes Explained
               </h2>
               <ol className="space-y-3 list-none">
                 {rewrite.changesExplained.map((change, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="shrink-0 w-7 h-7 rounded-full bg-[#b48c50]/15 text-[#b48c50] font-mono text-sm flex items-center justify-center mt-0.5">
+                    <span className="shrink-0 w-7 h-7 rounded-full bg-primary/15 text-primary font-mono text-sm flex items-center justify-center mt-0.5">
                       {index + 1}
                     </span>
-                    <p className="text-sm leading-relaxed text-[#e4ddd3]/80 font-sans">
+                    <p className="text-sm leading-relaxed text-foreground/80 font-sans">
                       {change}
                     </p>
                   </li>
@@ -116,7 +116,7 @@ export default function RewritePreview() {
           <div className="w-full flex justify-center lg:justify-start mt-6">
             <button
               onClick={() => downloadResumePDF(rewrite as RewriteOutput)}
-              className="w-full max-w-md p-4 rounded-2xl bg-[#b48c50] text-white font-sans font-bold tracking-wide hover:bg-[#b48c50]/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
+              className="w-full max-w-md p-4 rounded-2xl bg-primary text-primary-foreground font-sans font-bold tracking-wide hover:bg-primary/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
             >
               <Download size={18} />
               Download Resume

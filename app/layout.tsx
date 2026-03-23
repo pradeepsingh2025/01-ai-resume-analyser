@@ -26,16 +26,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
+    <html lang="en" className={cn("font-sans dark", inter.variable)}>
       <body
         className={`${courierPrime.className} antialiased`}
       >
         <ClerkProvider>
-          <header className="flex items-center justify-between px-8 py-4 h-14 bg-[#07090d] border-b border-white/10 fixed top-0 right-0 left-0 z-30">
+          <header className="flex items-center justify-between px-8 py-4 h-14 bg-background border-b border-border fixed top-0 right-0 left-0 z-30">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <span className="text-[#b48c50] text-lg leading-none">◈</span>
-              <span className="font-mono text-xs tracking-[0.18em] uppercase text-[#e4ddd3]/70">
+              <span className="text-primary text-lg leading-none">◈</span>
+              <span className="font-mono text-xs tracking-[0.18em] uppercase text-foreground/70">
                 <Link href="/">Resumter</Link>
               </span>
             </div>
@@ -44,12 +44,12 @@ export default function RootLayout({
             <div className="flex items-center gap-3">
               <Show when="signed-out">
                 <SignInButton>
-                  <button className="font-mono text-[11px] tracking-widest uppercase text-[#e4ddd3]/50 hover:text-[#e4ddd3]/90 transition-colors px-3 py-1.5 cursor-pointer">
+                  <button className="font-mono text-[11px] tracking-widest uppercase text-foreground/50 hover:text-foreground/90 transition-colors px-3 py-1.5 cursor-pointer">
                     Log in
                   </button>
                 </SignInButton>
                 <SignUpButton>
-                  <button className="font-mono text-[11px] tracking-widest uppercase bg-[#b48c50] text-[#07090d] px-4 py-1.5 hover:bg-[#c9a264] transition-colors cursor-pointer">
+                  <button className="font-mono text-[11px] tracking-widest uppercase bg-primary text-primary-foreground px-4 py-1.5 hover:bg-primary-hover transition-colors cursor-pointer">
                     Sign up
                   </button>
                 </SignUpButton>

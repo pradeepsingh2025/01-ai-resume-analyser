@@ -74,13 +74,13 @@ export default function Rewrite() {
     }
 
     return (
-        <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-18 pb-12 px-4 sm:px-6 lg:px-10 flex flex-col">
+        <div className="min-h-screen bg-background text-foreground pt-18 pb-12 px-4 sm:px-6 lg:px-10 flex flex-col">
             {/* Header */}
             <div className="flex flex-col items-start gap-1 mb-6">
-                <h1 className="text-3xl font-mono text-[#b48c50] tracking-wider uppercase">
+                <h1 className="text-3xl font-mono text-primary tracking-wider uppercase">
                     Rewrite Resume
                 </h1>
-                <p className="text-[#e4ddd3]/60 font-sans max-w-xl">
+                <p className="text-foreground/60 font-sans max-w-xl">
                     Rewrite your resume to better match the job description.
                 </p>
             </div>
@@ -95,7 +95,7 @@ export default function Rewrite() {
                             <button
                                 onClick={handleRewrite}
                                 disabled={loading || !resumeText || !jobDescription || !missingKeywords}
-                                className="w-full max-w-md p-4 rounded-2xl bg-[#b48c50] text-white font-sans font-bold tracking-wide hover:bg-[#b48c50]/80 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                                className="w-full max-w-md p-4 rounded-2xl bg-primary text-primary-foreground font-sans font-bold tracking-wide hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {loading ? <Loader2 className="animate-spin" /> : "One click away to Rewrite your resume"}
                             </button>
@@ -105,16 +105,16 @@ export default function Rewrite() {
                     {/* Changes explained */}
                     {rewrittenResume && rewrittenResume.changesExplained && (
                         <div className="w-full mt-2 space-y-4">
-                            <h2 className="text-xl font-mono text-[#b48c50] tracking-wider uppercase border-b border-[#b48c50]/20 pb-2">
+                            <h2 className="text-xl font-mono text-primary tracking-wider uppercase border-b border-primary/20 pb-2">
                                 Changes Explained
                             </h2>
                             <ol className="space-y-3 list-none">
                                 {rewrittenResume.changesExplained.map((change, index) => (
                                     <li key={index} className="flex items-start gap-3">
-                                        <span className="shrink-0 w-7 h-7 rounded-full bg-[#b48c50]/15 text-[#b48c50] font-mono text-sm flex items-center justify-center mt-0.5">
+                                        <span className="shrink-0 w-7 h-7 rounded-full bg-primary/15 text-primary font-mono text-sm flex items-center justify-center mt-0.5">
                                             {index + 1}
                                         </span>
-                                        <p className="text-sm leading-relaxed text-[#e4ddd3]/80 font-sans">
+                                        <p className="text-sm leading-relaxed text-foreground/80 font-sans">
                                             {change}
                                         </p>
                                     </li>
@@ -128,7 +128,7 @@ export default function Rewrite() {
                         <div className="w-full flex justify-center lg:justify-start mt-6">
                             <button
                                 onClick={() => downloadResumePDF(rewrittenResume as RewriteOutput)}
-                                className="w-full max-w-md p-4 rounded-2xl bg-[#b48c50] text-white font-sans font-bold tracking-wide hover:bg-[#b48c50]/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
+                                className="w-full max-w-md p-4 rounded-2xl bg-primary text-primary-foreground font-sans font-bold tracking-wide hover:bg-primary/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
                             >
                                <Download size={18} /> Download Resume
                             </button>

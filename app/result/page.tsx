@@ -43,7 +43,7 @@ export default function Result() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#07090d] text-[#b48c50] pt-18 pb-12 px-6 flex items-center justify-center">
+            <div className="min-h-screen bg-background text-primary pt-18 pb-12 px-6 flex items-center justify-center">
                 <div className="w-full flex items-center justify-center gap-8 text-center">
                     <Loader2 className="w-8 h-8 animate-spin" />
                     <h1 className="text-2xl text-center">Loading results...</h1>
@@ -54,10 +54,10 @@ export default function Result() {
 
     if (!data) {
         return (
-            <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-24 pb-12 px-6 flex flex-col items-center">
+            <div className="min-h-screen bg-background text-foreground pt-24 pb-12 px-6 flex flex-col items-center">
                 <div className="w-full max-w-3xl flex flex-col gap-8 text-center">
                     <h1 className="text-2xl text-red-500">Error loading results</h1>
-                    <Link href="/analyze" className="text-[#b48c50] hover:underline flex items-center justify-center gap-2">
+                    <Link href="/analyze" className="text-primary hover:underline flex items-center justify-center gap-2">
                         <ChevronLeft className="w-4 h-4" /> Back to Analyze
                     </Link>
                 </div>
@@ -73,19 +73,19 @@ export default function Result() {
     };
 
     return (
-        <div className="min-h-screen bg-[#07090d] text-[#e4ddd3] pt-24 pb-12 px-6 flex flex-col items-center">
+        <div className="min-h-screen bg-background text-foreground pt-24 pb-12 px-6 flex flex-col items-center">
             <div className="w-full max-w-4xl flex flex-col gap-10 mb-20">
                 {/* Header & Back Action */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <div className="space-y-4">
                         <Link
                             href="/analyze"
-                            className="inline-flex items-center gap-2 text-sm tracking-wider text-[#e4ddd3]/50 hover:text-[#b48c50] transition-colors uppercase"
+                            className="inline-flex items-center gap-2 text-sm tracking-wider text-foreground/50 hover:text-primary transition-colors uppercase"
                         >
                             <ChevronLeft className="w-4 h-4" /> New Analysis
                         </Link>
                         <div className="flex items-center gap-4">
-                            <h1 className="text-3xl md:text-4xl text-[#b48c50] tracking-wider uppercase">
+                            <h1 className="text-3xl md:text-4xl text-primary tracking-wider uppercase">
                                 Analysis Result
                             </h1>
 
@@ -94,7 +94,7 @@ export default function Result() {
                             </Link>
 
                         </div>
-                        <p className="text-[#e4ddd3]/60 max-w-xl leading-relaxed">
+                        <p className="text-foreground/60 max-w-xl leading-relaxed">
                             Here is the detailed evaluation of your resume against the provided job description.
                         </p>
                     </div>
@@ -102,9 +102,9 @@ export default function Result() {
                     {/* ATS Score Display */}
                     <div className="flex items-center gap-4 bg-white/2 border border-white/10 rounded-2xl p-6 shadow-lg">
                         <div className="flex flex-col space-y-1">
-                            <span className="text-sm tracking-widest uppercase text-[#e4ddd3]/60">ATS Match</span>
+                            <span className="text-sm tracking-widest uppercase text-foreground/60">ATS Match</span>
                             <span className={`text-5xl font-bold ${getScoreColor(data.atsScore)}`}>
-                                {data.atsScore}<span className="text-2xl text-[#e4ddd3]/40">%</span>
+                                {data.atsScore}<span className="text-2xl text-foreground/40">%</span>
                             </span>
                         </div>
                         <Target className={`w-12 h-12 opacity-80 ${getScoreColor(data.atsScore)}`} />
@@ -112,13 +112,13 @@ export default function Result() {
                 </div>
 
                 {/* Overall Feedback */}
-                <div className="bg-white/2 border border-[#b48c50]/20 rounded-2xl p-6 md:p-8 shadow-lg relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-[#b48c50]"></div>
+                <div className="bg-white/2 border border-primary/20 rounded-2xl p-6 md:p-8 shadow-lg relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
                     <div className="flex items-center gap-3 mb-4">
-                        <Lightbulb className="w-5 h-5 text-[#b48c50]" />
-                        <h2 className="text-lg tracking-widest uppercase text-[#b48c50]">Overall Feedback</h2>
+                        <Lightbulb className="w-5 h-5 text-primary" />
+                        <h2 className="text-lg tracking-widest uppercase text-primary">Overall Feedback</h2>
                     </div>
-                    <p className="text-[#e4ddd3]/50 leading-relaxed text-lg">
+                    <p className="text-foreground/50 leading-relaxed text-lg">
                         {data.overallFeedback}
                     </p>
                 </div>
@@ -136,12 +136,12 @@ export default function Result() {
                                 {data.strengths.map((strength: string, idx: number) => (
                                     <li key={idx} className="flex items-start gap-3">
                                         <span className="w-1.5 h-1.5 rounded-full bg-green-400/50 mt-2.5 shrink-0"></span>
-                                        <span className="text-[#e4ddd3]/50 leading-relaxed">{strength}</span>
+                                        <span className="text-foreground/50 leading-relaxed">{strength}</span>
                                     </li>
                                 ))}
                             </ul>
                         ) : (
-                            <p className="text-[#e4ddd3]/40 italic">No significant strengths identified.</p>
+                            <p className="text-foreground/40 italic">No significant strengths identified.</p>
                         )}
                     </div>
 
@@ -156,12 +156,12 @@ export default function Result() {
                                 {data.weaknesses.map((weakness: string, idx: number) => (
                                     <li key={idx} className="flex items-start gap-3">
                                         <span className="w-1.5 h-1.5 rounded-full bg-red-400/50 mt-2.5 shrink-0"></span>
-                                        <span className="text-[#e4ddd3]/50 leading-relaxed">{weakness}</span>
+                                        <span className="text-foreground/50 leading-relaxed">{weakness}</span>
                                     </li>
                                 ))}
                             </ul>
                         ) : (
-                            <p className="text-[#e4ddd3]/40 italic">No significant areas for improvement identified.</p>
+                            <p className="text-foreground/40 italic">No significant areas for improvement identified.</p>
                         )}
                     </div>
                 </div>
@@ -184,7 +184,7 @@ export default function Result() {
                             ))}
                         </div>
                     ) : (
-                        <p className="text-[#e4ddd3]/40 italic">No missing keywords! Your resume aligns very well with the job description.</p>
+                        <p className="text-foreground/40 italic">No missing keywords! Your resume aligns very well with the job description.</p>
                     )}
                 </div>
 
