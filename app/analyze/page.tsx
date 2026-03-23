@@ -86,7 +86,7 @@ export default function Analyse() {
                         Analyze Resume
                     </h1>
                     <p className="text-foreground/60 font-sans max-w-xl leading-relaxed">
-                        Upload your resume and provide specific instructions or a job description for our AI to evaluate your profile against.
+                        Upload your resume and provide a job description for our AI to evaluate your profile against.
                     </p>
                 </div>
 

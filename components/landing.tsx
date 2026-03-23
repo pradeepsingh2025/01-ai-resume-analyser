@@ -97,7 +97,7 @@ export default function App() {
                 {/* Subtext */}
                 <p className={`font-mono text-sm leading-relaxed text-foreground/40 max-w-md transition-all duration-500 delay-200 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"}`}>
                     Paste a job description + résumé and get an ATS score,
-                    keyword gaps, and rewrite suggestions — instantly.
+                    keyword gaps, and rewrite — instantly.
                 </p>
 
                 {/* ── FEATURE CARDS ── */}
