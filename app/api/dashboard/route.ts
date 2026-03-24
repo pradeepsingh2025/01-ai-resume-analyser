@@ -15,5 +15,13 @@ export async function GET() {
     },
   });
 
-  return Response.json(analyses);
+  const user = await prismaClient.user.findUnique({
+    where: { id: userId },
+    select: {
+      analysesCount: true,
+      rewritesCount: true,
+    },
+  });
+
+  return Response.json({ analyses, user });
 }

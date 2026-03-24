@@ -1,12 +1,13 @@
 'use client'
-import { useState } from "react"
+import { useState} from "react"
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
-import { Upload, Briefcase, Sparkles, FileText, X, Loader2 } from "lucide-react"
+import { Upload, Briefcase, Sparkles, FileText, X, Loader2, AlertTriangle } from "lucide-react"
 import { parseResume } from "@/utils/parser"
 import { useRouter } from "next/navigation"
 import { useAnalysisStore } from "@/store/useAnalysisStore";
+import { useAuth, SignInButton } from '@clerk/nextjs';
 
 
 export default function Analyse() {
@@ -15,6 +16,7 @@ export default function Analyse() {
     const [file, setFile] = useState<File | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
+    const { isSignedIn } = useAuth()
 
     const setAnalysisData = useAnalysisStore((state) => state.setAnalysisData);
 
@@ -45,7 +47,8 @@ export default function Analyse() {
     }
 
     const handleAnalyze = async (file: File, jobDescription: string) => {
-        setLoading(true)
+
+        setLoading(true);
         try {
             const resumeText = await parseResume(file);   // client side parsing
 
@@ -55,6 +58,11 @@ export default function Analyse() {
                 body: JSON.stringify({ resumeText, jobDescription }),
             });
 
+            if (!res.ok) {
+                const errorData = await res.json();
+                setError(errorData.error || "Failed to analyze resume");
+                return;
+            }
             const { analysisId, output } = await res.json();
             setAnalysisData(analysisId, {
                 resumeText,
@@ -69,7 +77,6 @@ export default function Analyse() {
             setLoading(false);
             setJobDescription("");
             setFile(null);
-            setError(null);
             const input = document.getElementById('resume') as HTMLInputElement
             if (input) input.value = ''
         }
@@ -77,6 +84,31 @@ export default function Analyse() {
 
     return (
         <div className="min-h-screen bg-background text-foreground pt-24 pb-12 px-6 flex flex-col items-center">
+
+            {/* Error Modal */}
+            {error && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
+                    <div className="bg-card border border-border shadow-lg rounded-xl p-6 max-w-md w-full animate-in fade-in zoom-in duration-200">
+                        <div className="flex justify-between items-start mb-4">
+                           <div className="flex items-center gap-2 text-red-500">
+                               <AlertTriangle className="w-5 h-5" />
+                               <h3 className="font-mono text-lg font-bold uppercase tracking-wider">Error</h3>
+                           </div>
+                           <button onClick={() => setError(null)} className="text-foreground/50 hover:text-foreground transition-colors cursor-pointer">
+                               <X className="w-5 h-5" />
+                           </button>
+                        </div>
+                        <p className="font-sans text-foreground/80 mb-6 leading-relaxed">
+                            {typeof error === 'string' ? error : (error as any)?.error || "An unknown error occurred"}
+                        </p>
+                        <div className="flex justify-end">
+                            <button onClick={() => setError(null)} className="font-mono text-sm tracking-widest uppercase bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary-hover transition-colors shadow-sm cursor-pointer">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="w-full max-w-3xl flex flex-col gap-8">
 
@@ -161,11 +193,6 @@ export default function Analyse() {
                                         </>
                                     )}
                                 </div>
-                                {error && (
-                                    <div className="absolute -bottom-8 left-0 right-0 text-center">
-                                        <p className="text-red-500 text-sm font-sans">{error}</p>
-                                    </div>
-                                )}
                             </div>
                         </Field>
                     </div>
@@ -174,14 +201,24 @@ export default function Analyse() {
 
                 {/* Actions */}
                 <div className="flex justify-end pt-2">
-                    <button
-                        onClick={() => handleAnalyze(file!, jobDescription)}
-                        disabled={!file || jobDescription.length === 0 || loading}
-                        className="font-mono text-sm tracking-widest uppercase bg-primary text-primary-foreground px-8 py-3.5 rounded-lg hover:bg-primary-hover transition-all transform hover:-translate-y-0.5 shadow-[0_4px_10px_0_rgba(180,140,80,0.2)] dark:shadow-[0_4px_14px_0_rgba(180,140,80,0.39)] hover:shadow-[0_6px_16px_rgba(180,140,80,0.15)] dark:hover:shadow-[0_6px_20px_rgba(180,140,80,0.23)] flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
-                    >
-                        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                        {loading ? "Analyzing..." : "Analyze Now"}
-                    </button>
+                    {isSignedIn ? (
+                        <button
+                            onClick={() => handleAnalyze(file!, jobDescription)}
+                            disabled={!file || jobDescription.length === 0 || loading}
+                            className="font-mono text-sm tracking-widest uppercase bg-primary text-primary-foreground px-8 py-3.5 rounded-lg hover:bg-primary-hover transition-all transform hover:-translate-y-0.5 shadow-[0_4px_10px_0_rgba(180,140,80,0.2)] dark:shadow-[0_4px_14px_0_rgba(180,140,80,0.39)] hover:shadow-[0_6px_16px_rgba(180,140,80,0.15)] dark:hover:shadow-[0_6px_20px_rgba(180,140,80,0.23)] flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                        >
+                            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                            {loading ? "Analyzing..." : "Analyze Now"}
+                        </button>
+                    ) : (
+                        <SignInButton mode="modal">
+                            <button
+                                className="font-mono bg-primary text-primary-foreground px-8 py-3.5 rounded-lg hover:bg-primary-hover transition-all transform hover:-translate-y-0.5 shadow-[0_4px_10px_0_rgba(180,140,80,0.2)] dark:shadow-[0_4px_14px_0_rgba(180,140,80,0.39)] hover:shadow-[0_6px_16px_rgba(180,140,80,0.15)] dark:hover:shadow-[0_6px_20px_rgba(180,140,80,0.23)] flex items-center gap-2 font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                            >
+                                Sign in to Analyze
+                            </button>
+                        </SignInButton>
+                    )}
                 </div>
 
             </div>

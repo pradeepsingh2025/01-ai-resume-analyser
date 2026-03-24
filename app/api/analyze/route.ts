@@ -6,7 +6,17 @@ import prismaClient from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const { userId } = await auth();
-  if (!userId) return new Response("Unauthorized", { status: 401 });
+  if (!userId) return Response.json({ error: "Unauthorized" }, { status: 401 });
+
+  const user = await prismaClient.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) return Response.json({ error: "User not found" }, { status: 404 });
+
+  if (user.analysesCount >= 10) {
+    return Response.json({ error: "You have reached the maximum number of analyses. Please upgrade to continue." }, { status: 403 });
+  }
 
   // Ensure the user exists in the database before creating related records
   const clerkUser = await currentUser();
@@ -70,7 +80,7 @@ export async function POST(req: Request) {
     `,
   });
 
-  
+
 
   const { id: analysisId } = await prismaClient.analysis.create({
     data: {
@@ -85,7 +95,14 @@ export async function POST(req: Request) {
     },
   });
 
-  return Response.json({analysisId, output});
+  await prismaClient.user.update({
+    where: { id: userId },
+    data: {
+      analysesCount: { increment: 1 },
+    },
+  });
+
+  return Response.json({ analysisId, output });
 }
 
 

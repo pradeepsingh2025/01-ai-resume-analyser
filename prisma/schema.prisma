@@ -15,10 +15,12 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  createdAt DateTime @default(now())
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  analysesCount Int      @default(0)
+  rewritesCount Int      @default(0) 
+  createdAt     DateTime @default(now())
 
   resumes         ResumeText[]
   jobDescriptions JobDescription[]
@@ -31,8 +33,8 @@ model JobDescription {
   content   String
   createdAt DateTime @default(now())
 
-  userId   String
-  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   analyses Analysis[]
 }
@@ -58,16 +60,16 @@ model Analysis {
   overallFeedback String
   createdAt       DateTime @default(now())
 
-  userId           String
-  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   jobDescriptionId String
   jobDescription   JobDescription @relation(fields: [jobDescriptionId], references: [id], onDelete: Cascade)
 
-  resumeTextId     String
-  resumeText       ResumeText     @relation(fields: [resumeTextId], references: [id], onDelete: Cascade)
+  resumeTextId String
+  resumeText   ResumeText @relation(fields: [resumeTextId], references: [id], onDelete: Cascade)
 
-  rewrites         Rewrite[]
+  rewrites Rewrite[]
 }
 
 model Rewrite {
@@ -75,14 +77,14 @@ model Rewrite {
   createdAt DateTime @default(now())
 
   // Fields from rewriteSchema
-  name             String            // Full name
-  summary          String?           // 2-4 sentence professional summary
-  achievements     String[]          // Awards, rankings, recognitions
-  changesExplained String[]          // List of changes made and why
+  name             String // Full name
+  summary          String? // 2-4 sentence professional summary
+  achievements     String[] // Awards, rankings, recognitions
+  changesExplained String[] // List of changes made and why
 
   // Relations — parent
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   analysisId String
   analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
@@ -96,13 +98,13 @@ model Rewrite {
 }
 
 model RewriteContact {
-  id        String  @id @default(cuid())
-  email     String?
-  phone     String?
-  linkedin  String?
-  github    String?
-  location  String?
-  website   String?
+  id       String  @id @default(cuid())
+  email    String?
+  phone    String?
+  linkedin String?
+  github   String?
+  location String?
+  website  String?
 
   rewriteId String  @unique
   rewrite   Rewrite @relation(fields: [rewriteId], references: [id], onDelete: Cascade)
@@ -110,8 +112,8 @@ model RewriteContact {
 
 model RewriteSkill {
   id    String   @id @default(cuid())
-  label String             // e.g. "Languages", "Frameworks"
-  items String[]           // 5-10 items per category
+  label String // e.g. "Languages", "Frameworks"
+  items String[] // 5-10 items per category
 
   rewriteId String
   rewrite   Rewrite @relation(fields: [rewriteId], references: [id], onDelete: Cascade)
@@ -122,8 +124,8 @@ model RewriteExperience {
   company  String
   location String?
   title    String
-  duration String            // e.g. "Jan 2023 – Present"
-  bullets  String[]          // 2-6 action-driven bullet points
+  duration String // e.g. "Jan 2023 – Present"
+  bullets  String[] // 2-6 action-driven bullet points
 
   rewriteId String
   rewrite   Rewrite @relation(fields: [rewriteId], references: [id], onDelete: Cascade)
@@ -145,9 +147,9 @@ model RewriteProject {
   id        String   @id @default(cuid())
   name      String
   date      String?
-  techStack String[]          // Technologies used
-  bullets   String[]          // 2-5 action-driven bullet points
-  link      String?           // GitHub / live demo URL
+  techStack String[] // Technologies used
+  bullets   String[] // 2-5 action-driven bullet points
+  link      String? // GitHub / live demo URL
 
   rewriteId String
   rewrite   Rewrite @relation(fields: [rewriteId], references: [id], onDelete: Cascade)

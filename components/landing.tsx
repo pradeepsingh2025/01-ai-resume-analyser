@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 const features = [
     {
@@ -129,7 +130,7 @@ export default function App() {
             {/* ── FOOTER ── */}
             <footer className={`relative z-10 px-8 py-3 border-t border-white/6 flex items-center justify-between transition-all duration-500 delay-500 ${visible ? "opacity-100" : "opacity-0"}`}>
                 <span className="font-mono text-[10px] text-foreground/20 tracking-widest uppercase">© 2026 Resumter</span>
-                <span className="font-mono text-[10px] text-foreground/20 tracking-widest uppercase">Privacy · Terms</span>
+                <Link href={'https://x.com/xpradeepsingh'}target="_blank" className="font-mono text-[14px] text-foreground/60 underline tracking-widest uppercase">feedback about usage</Link>
             </footer>
         </div>
     );

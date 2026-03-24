@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { RewriteOutput } from "@/utils/types";
 import { downloadResumePDF, ResumePDF } from "@/components/ResumePDF";
 import { PDFViewer } from "@react-pdf/renderer";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, AlertTriangle, X } from "lucide-react";
 import { useAnalysisStore } from "@/store/useAnalysisStore";
 
 export default function Rewrite() {
@@ -14,7 +14,7 @@ export default function Rewrite() {
     const [jobDescription, setJobDescription] = useState<string>("");
     const [missingKeywords, setMissingKeywords] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>("");
+    const [error, setError] = useState<string | null>(null);
     const [rewrittenResume, setRewrittenResume] = useState<RewriteOutput>();
 
     const analysisEntry = useAnalysisStore((state) => state.analyses[analysisId!]);
@@ -33,9 +33,10 @@ export default function Rewrite() {
                 headers: { "Content-Type": "application/json" },
             });
             const data = await res.json();
-            console.log("data resumeText", data.resumeText.content);
-            console.log("data jobd", data.jobDescription.content);
-            console.log("data missingWords", data.missingKeywords);
+            if (!res.ok) {
+                setError(data.error || "Failed to fetch rewrite data");
+                return;
+            }
             setResumeText(data.resumeText.content);
             setJobDescription(data.jobDescription.content);
             setMissingKeywords(data.missingKeywords);
@@ -55,8 +56,10 @@ export default function Rewrite() {
                 body: JSON.stringify({ resumeText, jobDescription, missingKeywords, analysisId }),
             });
             const data = await res.json();
-            console.log("data after rewrite", data);
-            console.log("data rewriteId", data.rewriteId);
+            if (!res.ok) {
+                setError(data.error || "Failed to rewrite resume");
+                return;
+            }
             setRewrittenResume(data.output);
         } catch (error) {
             setError("Failed to rewrite resume");
@@ -65,16 +68,10 @@ export default function Rewrite() {
         }
     }
 
-    if (error) {
-        return (
-            <div className="flex items-center justify-center mt-30">
-                Oops!
-            </div>
-        )
-    }
 
     return (
         <div className="max-w-[1390px] mx-auto min-h-screen bg-background text-foreground pt-18 pb-12 px-4 sm:px-6 lg:px-10 flex flex-col">
+
             {/* Header */}
             <div className="flex flex-col items-start gap-1 mb-6">
                 <h1 className="text-3xl font-mono text-primary tracking-wider uppercase">
@@ -97,7 +94,7 @@ export default function Rewrite() {
                                 disabled={loading || !resumeText || !jobDescription || !missingKeywords}
                                 className="w-full max-w-md p-4 rounded-2xl bg-primary text-primary-foreground font-sans font-bold tracking-wide hover:bg-primary/80 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
-                                {loading ? <Loader2 className="animate-spin" /> : "One click away to Rewrite your resume"}
+                                {loading ? <><Loader2 className="animate-spin" /> AI is rewriting your resume...</> : "One click away to Rewrite your resume"}
                             </button>
                         </div>
                     )}
@@ -130,7 +127,7 @@ export default function Rewrite() {
                                 onClick={() => downloadResumePDF(rewrittenResume as RewriteOutput)}
                                 className="w-full max-w-md p-4 rounded-2xl bg-primary text-primary-foreground font-sans font-bold tracking-wide hover:bg-primary/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
                             >
-                               <Download size={18} /> Download Resume
+                                <Download size={18} /> Download Resume
                             </button>
                         </div>
                     )}
@@ -147,6 +144,31 @@ export default function Rewrite() {
                         >
                             <ResumePDF data={rewrittenResume!} />
                         </PDFViewer>
+                    </div>
+                )}
+
+                {/* Error Modal */}
+                {error && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
+                        <div className="bg-card border border-border shadow-lg rounded-xl p-6 max-w-md w-full animate-in fade-in zoom-in duration-200">
+                            <div className="flex justify-between items-start mb-4">
+                                <div className="flex items-center gap-2 text-red-500">
+                                    <AlertTriangle className="w-5 h-5" />
+                                    <h3 className="font-mono text-lg font-bold uppercase tracking-wider">Error</h3>
+                                </div>
+                                <button onClick={() => setError(null)} className="text-foreground/50 hover:text-foreground transition-colors cursor-pointer">
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+                            <p className="font-sans text-foreground/80 mb-6 leading-relaxed">
+                                {typeof error === 'string' ? error : (error as any)?.error || "An unknown error occurred"}
+                            </p>
+                            <div className="flex justify-end">
+                                <button onClick={() => setError(null)} className="font-mono text-sm tracking-widest uppercase bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary-hover transition-colors shadow-sm cursor-pointer">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>

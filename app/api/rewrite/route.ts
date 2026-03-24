@@ -9,6 +9,16 @@ export async function POST(req: Request) {
   const { userId } = await auth();
   if (!userId) return new Response("Unauthorized", { status: 401 });
 
+  const user = await prismaClient.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) return new Response("User not found", { status: 404 });
+
+  if (user.rewritesCount >= 10) {
+    return Response.json({ error: "You have reached the maximum number of rewrites. Please upgrade to continue." }, { status: 403 });
+  }
+
   const { resumeText, jobDescription, missingKeywords, analysisId } = await req.json();
 
   let missingKeywordsArray: string[] = [];
@@ -78,6 +88,7 @@ ABSOLUTE RULES
 - DO NOT use weak openers: "responsible for", "worked on", "helped with"
 - DO NOT pad skills — quality over quantity
 - Preserve all original contact info, dates, and institution names exactly
+- Do not return any section as null or undefined, return only with data otherwise don't return that section
 - Incorporate missing keywords NATURALLY into existing bullets/summary
 - Every bullet must start with a strong action verb: Built, Architected, Reduced, Led, Launched, etc.
 
@@ -87,7 +98,7 @@ Original Resume: ${resumeText}
     `,
   });
 
-  const {id : rewriteId} = await prismaClient.rewrite.create({
+  const { id: rewriteId } = await prismaClient.rewrite.create({
     data: {
       userId,
       analysisId,
@@ -113,6 +124,13 @@ Original Resume: ${resumeText}
     },
   });
 
-  return Response.json({output, rewriteId});
+  await prismaClient.user.update({
+    where: { id: userId },
+    data: {
+      rewritesCount: { increment: 1 },
+    },
+  });
+
+  return Response.json({ output, rewriteId });
 
 }

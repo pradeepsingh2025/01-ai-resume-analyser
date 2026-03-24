@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "analysesCount" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "rewritesCount" INTEGER NOT NULL DEFAULT 0;

@@ -14,6 +14,7 @@ import {
   BarChart3,
   Eye,
 } from "lucide-react";
+import { useAuth } from "@clerk/nextjs";
 
 interface AnalysisEntry {
   id: string;
@@ -68,9 +69,12 @@ function truncate(text: string, len: number) {
 
 export default function DashboardPage() {
   const [analyses, setAnalyses] = useState<AnalysisEntry[]>([]);
+  const [analysesCount, setAnalysesCount] = useState<number>(0);
+  const [rewritesCount, setRewritesCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
+
 
   const fetchAnalyses = async () => {
     setLoading(true);
@@ -79,7 +83,9 @@ export default function DashboardPage() {
       const res = await fetch("/api/dashboard");
       if (!res.ok) throw new Error("Failed to load");
       const data = await res.json();
-      setAnalyses(data);
+      setAnalyses(data.analyses);
+      setAnalysesCount(data.user.analysesCount);
+      setRewritesCount(data.user.rewritesCount);
     } catch {
       setError("Could not load your analysis history.");
     } finally {
@@ -92,12 +98,12 @@ export default function DashboardPage() {
   }, []);
 
   // Stats
-  const totalAnalyses = analyses.length;
+  const totalAnalyses = analysesCount;
   const avgScore = totalAnalyses
     ? Math.round(analyses.reduce((sum, a) => sum + a.atsScore, 0) / totalAnalyses)
     : 0;
   const bestScore = totalAnalyses ? Math.max(...analyses.map((a) => a.atsScore)) : 0;
-  const totalRewrites = analyses.reduce((sum, a) => sum + a.rewrites.length, 0);
+  const totalRewrites = rewritesCount;
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
@@ -155,7 +161,7 @@ export default function DashboardPage() {
                   </span>
                   <stat.icon size={14} className="text-primary/40 group-hover:text-primary transition-colors" />
                 </div>
-                <span className="text-2xl font-light text-foreground/90">{stat.value}</span>
+                <span className="text-2xl font-light text-foreground/90">{stat.label === "Total Analyses" || stat.label === "Rewrites" ? `${stat.value} / 10` : stat.value}</span>
               </div>
             ))}
           </div>
@@ -288,16 +294,21 @@ export default function DashboardPage() {
 
                   {/* View Rewrite button */}
                   {analysis.rewrites.length > 0 && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        router.push(`/dashboard/rewrites?id=${analysis.rewrites[0].id}`);
-                      }}
-                      className="mt-4 font-mono text-[11px] tracking-widest uppercase border border-primary/30 text-primary px-4 py-2 hover:bg-primary/10 transition-colors flex items-center gap-2 cursor-pointer w-fit"
-                    >
-                      <Eye size={12} />
-                      View Rewrite
-                    </button>
+                    <div className="flex flex-wrap items-center gap-3">
+                      {analysis.rewrites.map((rewrite, index) => (
+                        <button
+                          key={rewrite.id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/dashboard/rewrites?id=${rewrite.id}`);
+                          }}
+                          className="mt-4 font-mono text-[11px] tracking-widest uppercase border border-primary/30 text-primary px-4 py-2 hover:bg-primary/10 transition-colors flex items-center gap-2 cursor-pointer w-fit"
+                        >
+                          <Eye size={12} />
+                          {analysis.rewrites.length === 1 ? "View Rewrite" : `View Rewrite ${index + 1}`}
+                        </button>
+                      ))}
+                    </div>
                   )}
                 </div>
               </div>
