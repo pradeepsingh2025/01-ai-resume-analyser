@@ -1,14 +1,14 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { RewriteOutput } from "@/utils/types";
 import { downloadResumePDF, ResumePDF } from "@/components/ResumePDF";
 import { PDFViewer } from "@react-pdf/renderer";
 import { Loader2, ArrowLeft, Download } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function RewritePreview() {
+function RewritePreviewContent() {
   const params = useSearchParams();
   const rewriteId = params.get("id");
   const router = useRouter();
@@ -138,4 +138,12 @@ export default function RewritePreview() {
       </div>
     </div>
   );
+}
+
+export default function RewritePreview() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
+            <RewritePreviewContent />
+        </Suspense>
+    );
 }

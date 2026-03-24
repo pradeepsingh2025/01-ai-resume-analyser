@@ -1,13 +1,13 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { RewriteOutput } from "@/utils/types";
 import { downloadResumePDF, ResumePDF } from "@/components/ResumePDF";
 import { PDFViewer } from "@react-pdf/renderer";
 import { Download, Loader2, AlertTriangle, X } from "lucide-react";
 import { useAnalysisStore } from "@/store/useAnalysisStore";
 
-export default function Rewrite() {
+function RewriteContent() {
     const params = useSearchParams();
     const analysisId = params.get("id")!
     const [resumeText, setResumeText] = useState<string>("");
@@ -173,5 +173,13 @@ export default function Rewrite() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function Rewrite() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
+            <RewriteContent />
+        </Suspense>
     );
 }

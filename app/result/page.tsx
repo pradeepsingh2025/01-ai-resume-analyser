@@ -1,12 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { ChevronLeft, Target, Lightbulb, TrendingUp, AlertCircle, CheckCircle2, ExternalLink, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { AnalysisResult } from "@/utils/types";
 import { useAnalysisStore } from "@/store/useAnalysisStore";
 
-export default function Result() {
+function ResultContent() {
     const params = useSearchParams();
     const analysisId = params.get("id")
     const [data, setData] = useState<AnalysisResult>({} as AnalysisResult);
@@ -190,5 +190,13 @@ export default function Result() {
 
             </div>
         </div>
+    );
+}
+
+export default function Result() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>}>
+            <ResultContent />
+        </Suspense>
     );
 }

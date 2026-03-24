@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import prismaClient from "@/lib/prisma";
 
-export async function GET(req: Request, { params }: { params: { analysisId: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ analysisId: string }> }) {
     const { userId } = await auth();
     if (!userId) return Response.json({ error: "Unauthorized" }, { status: 401 });
 

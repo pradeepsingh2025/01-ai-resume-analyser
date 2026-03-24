@@ -3,7 +3,7 @@ import prismaClient from "@/lib/prisma";
 
 export async function GET(
   req: Request,
-  { params }: { params: { rewriteId: string } }
+  { params }: { params: Promise<{ rewriteId: string }> }
 ) {
   const { userId } = await auth();
   if (!userId) return new Response("Unauthorized", { status: 401 });
