@@ -135,7 +135,7 @@ function RewriteContent() {
 
                 {/* Right panel — PDF Viewer (full width of its half) */}
                 {rewrittenResume && (
-                    <div className="w-full lg:w-1/2 lg:sticky lg:top-20 lg:self-start order-1 lg:order-2">
+                    <div className="hidden lg:block w-full lg:w-1/2 lg:sticky lg:top-20 lg:self-start order-1 lg:order-2">
                         <PDFViewer
                             width="100%"
                             height="850px"
