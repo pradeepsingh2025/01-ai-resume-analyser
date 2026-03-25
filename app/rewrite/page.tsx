@@ -83,9 +83,9 @@ function RewriteContent() {
             </div>
 
             {/* Main two-panel layout */}
-            <div className="w-full flex flex-col-reverse lg:flex-row gap-8 lg:gap-10 flex-1">
+            <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-10 flex-1">
                 {/* Left panel — Changes + Buttons */}
-                <div className="w-full lg:w-1/2 flex flex-col items-start mt-4 lg:mt-0">
+                <div className="w-full lg:w-1/2 flex flex-col items-start mt-4 lg:mt-0 order-2 lg:order-1">
                     {/* Rewrite button (before rewrite) */}
                     {!rewrittenResume && (
                         <div className="w-full flex justify-center lg:justify-start">
@@ -135,7 +135,7 @@ function RewriteContent() {
 
                 {/* Right panel — PDF Viewer (full width of its half) */}
                 {rewrittenResume && (
-                    <div className="w-full lg:w-1/2 lg:sticky lg:top-20 lg:self-start">
+                    <div className="w-full lg:w-1/2 lg:sticky lg:top-20 lg:self-start order-1 lg:order-2">
                         <PDFViewer
                             width="100%"
                             height="850px"
