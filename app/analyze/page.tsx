@@ -1,5 +1,5 @@
 'use client'
-import { useState} from "react"
+import { useState } from "react"
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
@@ -61,6 +61,7 @@ export default function Analyse() {
             if (!res.ok) {
                 const errorData = await res.json();
                 setError(errorData.error || "Failed to analyze resume");
+                setLoading(false);
                 return;
             }
             const { analysisId, output } = await res.json();
@@ -73,12 +74,7 @@ export default function Analyse() {
         } catch (error) {
             console.log(error);
             setError("Something went wrong. Please try again.");
-        } finally {
             setLoading(false);
-            setJobDescription("");
-            setFile(null);
-            const input = document.getElementById('resume') as HTMLInputElement
-            if (input) input.value = ''
         }
     };
 

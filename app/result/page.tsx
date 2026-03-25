@@ -134,7 +134,7 @@ function ResultContent() {
                         {data.strengths && data.strengths.length > 0 ? (
                             <ul className="space-y-4">
                                 {data.strengths.map((strength: string, idx: number) => (
-                                    <li key={idx} className="flex items-start gap-3">
+                                    <li key={idx} className="flex flex-wrap items-start gap-3">
                                         <span className="w-1.5 h-1.5 rounded-full bg-green-400/50 mt-2.5 shrink-0"></span>
                                         <span className="text-foreground/50 leading-relaxed">{strength}</span>
                                     </li>
@@ -154,7 +154,7 @@ function ResultContent() {
                         {data.weaknesses && data.weaknesses.length > 0 ? (
                             <ul className="space-y-4">
                                 {data.weaknesses.map((weakness: string, idx: number) => (
-                                    <li key={idx} className="flex items-start gap-3">
+                                    <li key={idx} className="flex flex-wrap items-start gap-3">
                                         <span className="w-1.5 h-1.5 rounded-full bg-red-400/50 mt-2.5 shrink-0"></span>
                                         <span className="text-foreground/50 leading-relaxed">{weakness}</span>
                                     </li>
