@@ -118,7 +118,7 @@ function ResultContent() {
                         <Lightbulb className="w-5 h-5 text-primary" />
                         <h2 className="text-lg tracking-widest uppercase text-primary">Overall Feedback</h2>
                     </div>
-                    <p className="text-foreground/50 leading-relaxed text-lg">
+                    <p className="text-foreground/50 leading-relaxed text-lg break-words">
                         {data.overallFeedback}
                     </p>
                 </div>
@@ -136,7 +136,7 @@ function ResultContent() {
                                 {data.strengths.map((strength: string, idx: number) => (
                                     <li key={idx} className="flex items-start gap-3">
                                         <span className="w-1.5 h-1.5 rounded-full bg-green-400/50 mt-2.5 shrink-0"></span>
-                                        <span className="text-foreground/50 leading-relaxed">{strength}</span>
+                                        <span className="text-foreground/50 leading-relaxed break-words min-w-0 flex-1">{strength}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -156,7 +156,7 @@ function ResultContent() {
                                 {data.weaknesses.map((weakness: string, idx: number) => (
                                     <li key={idx} className="flex items-start gap-3">
                                         <span className="w-1.5 h-1.5 rounded-full bg-red-400/50 mt-2.5 shrink-0"></span>
-                                        <span className="text-foreground/50 leading-relaxed">{weakness}</span>
+                                        <span className="text-foreground/50 leading-relaxed break-words min-w-0 flex-1">{weakness}</span>
                                     </li>
                                 ))}
                             </ul>
