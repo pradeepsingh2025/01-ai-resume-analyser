@@ -146,27 +146,26 @@ function RewriteContent() {
                         </PDFViewer>
                     </div>
                 )}
-
-                {/* Error Modal */}
-                {error && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
-                        <div className="bg-card border border-border shadow-lg rounded-xl p-6 max-w-md w-full animate-in fade-in zoom-in duration-200">
-                            <div className="flex justify-between items-start mb-4">
-                                <div className="flex items-center gap-2 text-red-500">
-                                    <AlertTriangle className="w-5 h-5" />
-                                    <h3 className="font-mono text-lg font-bold uppercase tracking-wider">Error</h3>
-                                </div>
-                                <button onClick={() => setError(null)} className="text-foreground/50 hover:text-foreground transition-colors cursor-pointer">
-                                    <X className="w-5 h-5" />
-                                </button>
-                            </div>
-                            <p className="font-sans text-foreground/80 mb-6 leading-relaxed">
-                                {typeof error === 'string' ? error : (error as any)?.error || "An unknown error occurred"}
-                            </p>
-                        </div>
-                    </div>
-                )}
             </div>
+            {/* Error Modal */}
+            {error && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
+                    <div className="bg-card border border-border shadow-lg rounded-xl p-6 max-w-md w-full animate-in fade-in zoom-in duration-200">
+                        <div className="flex justify-between items-start mb-4">
+                            <div className="flex items-center gap-2 text-red-500">
+                                <AlertTriangle className="w-5 h-5" />
+                                <h3 className="font-mono text-lg font-bold uppercase tracking-wider">Error</h3>
+                            </div>
+                            <button onClick={() => setError(null)} className="text-foreground/50 hover:text-foreground transition-colors cursor-pointer">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        <p className="font-sans text-foreground/80 mb-6 leading-relaxed">
+                            {typeof error === 'string' ? error : (error as any)?.error || "An unknown error occurred"}
+                        </p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
