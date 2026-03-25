@@ -163,11 +163,6 @@ function RewriteContent() {
                             <p className="font-sans text-foreground/80 mb-6 leading-relaxed">
                                 {typeof error === 'string' ? error : (error as any)?.error || "An unknown error occurred"}
                             </p>
-                            <div className="flex justify-end">
-                                <button onClick={() => setError(null)} className="font-mono text-sm tracking-widest uppercase bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary-hover transition-colors shadow-sm cursor-pointer">
-                                    Close
-                                </button>
-                            </div>
                         </div>
                     </div>
                 )}
