@@ -125,7 +125,7 @@ function RewritePreviewContent() {
         </div>
 
         {/* Right panel — PDF Viewer */}
-        <div className="w-full lg:w-1/2 lg:sticky lg:top-20 lg:self-start">
+        <div className="hidden lg:block w-full lg:w-1/2 lg:sticky lg:top-20 lg:self-start">
           <PDFViewer
             width="100%"
             height="850px"
