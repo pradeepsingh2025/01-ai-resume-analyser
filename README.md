@@ -1,4 +1,4 @@
-# AI Resume Analyser
+# AI Resume Analyser - Resumter
 
 ![Landing Page Screenshot](./public/landingss.png)
 
@@ -9,6 +9,9 @@ A powerful and modern web application built with Next.js that leverages AI to he
 - **AI-Powered Analysis**: Upload your resume and receive instant, actionable feedback powered by Google Generative AI to identify strengths and areas for improvement.
 - **Smart Rewrites**: Automatically generate improved, professional versions of your resume content, tailored to highlight your specific skills and experiences.
 - **PDF Generation**: Easily preview and download your rewritten, perfectly-formatted resume directly as a PDF document.
+
+![Rewrite Page Screenshot](./public/download-prev.png)
+
 - **Secure Authentication**: Seamless and safe user login, session management, and data protection powered by Clerk.
 - **Modern & Responsive UI**: A fully responsive, accessible, and sleek interface complete with Light and Dark mode support, designed with Tailwind CSS and Shadcn UI.
 - **Analysis History**: Keep track of your past resume analyses and rewrites through a personalized dashboard.
