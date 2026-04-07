@@ -34,7 +34,6 @@ export const rewriteSchema = z.object({
                 items: z
                     .array(z.string())
                     .min(1)
-                    .max(10)
                     .describe("5–10 items max per category, exact terminology from job description"),
             })
         )

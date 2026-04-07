@@ -53,7 +53,7 @@ SUMMARY (optional, 2-4 sentences max):
 - Never use generic phrases like "hard worker" or "team player"
 
 SKILLS:
-- List 5-10 skills total per category — no filler
+- List 5-10 skills total per category not more than 10 — no filler
 - Use EXACT terminology from the job description (e.g. "AWS" not "cloud")
 - Group by category: Languages | Frameworks | Databases | Tools | etc.
 - Put the most job-relevant categories first
